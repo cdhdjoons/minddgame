@@ -27,29 +27,43 @@ export default function Home() {
       <div className=" w-full h-full max-w-[500px] relative flex flex-col " >
         <Intro />
         <AnimatePresence mode="wait">
-          <motion.div className="w-full flex justify-center pt-1 relative "
+          <motion.div className="w-full flex justify-between relative "
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <div className="w-[90%] max-w-[500px] px-[3%] flex flex-col items-start relative ">
-              <div className=" w-full flex flex-col">
-                <p className="text-white text-[3.5vmin] sm:text-[2.5vmin] xs:text-[4.5vmin]">Welcome</p>
-              </div>
-              <div className="w-[50vmin] sm:w-[40vmin] aspect-[306/59] relative">
+            <div className="w-full max-w-[500px] flex flex-col items-start relative ">
+              <div className="w-full aspect-[402/100] relative">
                 <Image
-                  src="/image/sagu_logo.png"
+                  src="/image/md_title_bg.svg"
                   alt="main logo"
                   layout="fill"
                   objectFit="cover"
                 />
+              </div>
+              <p className="absolute top-[5%] left-[5%] text-[5vmax] text-[#FFFEC4] text-shadow-lg text-stroke -rotate-3 tracking-tighter-3 -skew-x-12 ">
+                MIND.D
+              </p>
+              <div className="w-full flex justify-end items-center px-[5%] absolute bottom-0 ">
+                <p className="text-[2.5vmax] text-[#FFFEC4] text-shadow-lg text-stroke -rotate-3 tracking-tighter-3 -skew-x-12 ">
+                  PRODUCE by
+                </p>
+                <div className="w-[13vmin] aspect-[1/1] relative">
+                  <Image
+                    src="/image/md_produce_icon.svg"
+                    alt="main logo"
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                </div>
               </div>
             </div>
 
           </motion.div>
         </AnimatePresence>
         <ClaimTimer />
+        
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUpCircle } from "lucide-react";
 import questionDb from "../db/questionDb";
+import Puzzle from "./puzzle";
 
 export default function ClaimTimer() {
     const TIMER_DURATION = 21600; // 6 hours in seconds
@@ -17,7 +18,29 @@ export default function ClaimTimer() {
     const hasFinished = useRef(false);
     const [tickets, setTickets] = useState(0);
     const [week, setWeek] = useState(0);
-    
+    const [teleId, setTeleId] = useState('unknown');
+
+
+    useEffect(() => {
+        const checkTelegramSDK = () => {
+            if (typeof window !== 'undefined' && window.Telegram) {
+                const user = window.Telegram.WebApp.initDataUnsafe;
+                if (user) {
+                    console.log('Telegram User:', user);
+                    if (user.user) {
+                        setTeleId(user.user.first_name);
+                    } else {
+                        setTeleId('--')
+                        setN2O(0)
+                    }
+                }
+            } else {
+                setTimeout(checkTelegramSDK, 1000); // 1초 후 다시 확인
+            }
+        };
+
+        checkTelegramSDK(); // 초기 실행
+    }, []);
 
     useEffect(() => {
         // localStorage에서 시작 시간 불러오기
@@ -125,7 +148,9 @@ export default function ClaimTimer() {
 
     // 프로그레스 바 너비 계산 (0% ~ 100%)
 
-    const progressWidth = onClaim ? '0%' : `${((TIMER_DURATION - time) / TIMER_DURATION) * 100}%`;
+    // const progressWidth = onClaim ? '0%' : `${((TIMER_DURATION - time) / TIMER_DURATION) * 100}%`;
+    const progressWidth = onClaim ? '0%' : `50%`;
+
 
     const activeClaim = () => {
         setOnClaim(true);
@@ -133,111 +158,132 @@ export default function ClaimTimer() {
 
     return (
         <AnimatePresence mode="wait">
-            <motion.div className={` h-full flex flex-col justify-evenly items-center `}
+            <motion.div className={` h-full flex flex-col justify-between items-center relative  `}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
             >
-                <div className="w-full h-[20%] flex justify-center items-center relative ">
-                    <div className="w-[90%] py-[5%] h-full sm:w-[90%] relative flex flex-col justify-between items-center rounded-[23px] bg-mainBoxBg">
-                        <div className="w-full flex justify-center gap-[10%] items-center  ">
-                            <p className="  text-[#E1FF41] text-[4.5vmin] sm:text-[2.5vmin] font-bold">Earn SAGU</p>
-                            <p className=" text-[#808080] text-[4.5vmin] sm:text-[2.5vmin] font-bold ">{formatTime(time)}</p>
-                        </div>
-                        <p className="text-white opacity-50 text-center text-[3vmin] sm:text-[1.5vmin]">AI is currently evaluating your response.</p>
-                        <div className="w-full relative flex justify-center py-[2%] items-end ">
-                            <div className="w-[80%] h-[1vmin] xs:h-[0.8vmin] sm:h-[0.7vmin] rounded-3xl bg-[#787880] relative ">
-                                <div className="w-full bg-[#007AFF] rounded-3xl h-full absolute left-0" style={{ width: progressWidth }}></div>
-                                <div className="w-[4vmin] sm:w-[2.5vmin] aspect-[1/1] bg-white rounded-full absolute -top-[150%] xs:-top-[200%] sm:-top-[150%]" style={{ left: progressWidth }}></div>
+                <div className="w-full h-[25%] flex justify-center items-center relative ">
+                    <div className="w-[90%] h-full sm:w-[90%] relative flex flex-col justify-between items-center bg-[#FD7601] rounded-sm border-2 border-black skew-x-[-5deg]">
+                        <div className="w-full h-full flex justify-center gap-[5%] items-center skew-x-[5deg]">
+                            <div className="w-[12vmin] sm:w-[6vmin] aspect-[66/69.66] relative  ">
+                                <Image
+                                    src="/image/md_user_pic.svg"
+                                    alt="main logo"
+                                    layout="fill"
+                                    objectFit="cover"
+                                />
                             </div>
+                            <div className="flex flex-col w-[70%]">
+                                <p className="  text-white text-[4.5vmin] sm:text-[2.5vmin] font-bold text-stroke-mini text-shadow-sm">{teleId}</p>
+                                <div className="w-full flex justify-start items-center gap-2">
+                                    <div className="w-[7vmin] sm:w-[3vmin] aspect-[1/1] relative  ">
+                                        <Image
+                                            src="/image/md_user_gem.svg"
+                                            alt="main logo"
+                                            layout="fill"
+                                            objectFit="cover"
+                                        />
+                                    </div>
+                                    <p className="text-[#93FF25] text-stroke-mini text-[3vmin]">13000</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="w-full flex justify-between items-center bg-[#FF953A] pr-[1%]">
+                            <div className="flex flex-col w-[70%] bg-[#FFC78E] pb-[1%]">
+                                <div className="flex justify-between px-[2%] w-full">
+                                    <p className="  text-white text-[4vmin] sm:text-[2vmin] font-bold text-stroke-mini text-shadow-sm">Bronze</p>
+                                    <p className="  text-white text-[4vmin] sm:text-[2vmin] font-bold text-stroke-mini text-shadow-sm">8/20</p>
+                                </div>
+                                <div className="flex justify-start items-center px-[2%] w-full relative">
+                                    <div className="w-[6.5vmin] sm:w-[6vmin] aspect-[25/25] relative skew-x-[5deg] z-10 ">
+                                        <Image
+                                            src="/image/md_user_tier.svg"
+                                            alt="main logo"
+                                            layout="fill"
+                                            objectFit="cover"
+                                        />
+                                    </div>
+                                    <div className="w-full absolute left-[7%]">
+                                        <div className="w-[90%] h-5 border-[#4C85EB] border-[1px] bg-[#23273C] relative rounded-sm ">
+                                            <div className="w-full bg-[#FD7601] border-black border-[1px] h-full absolute left-0" style={{ width: progressWidth }}></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className=" absolute right-[26%] w-0 h-0 border-l-[10px] border-r-[10px] border-b-[15px] rotate-90 border-l-transparent border-r-transparent border-b-[#FFC78E]"
+                            ></div>
+                            <div className="w-[8vmin] sm:w-[6vmin] aspect-[31/25] relative">
+                                <Image
+                                    src="/image/md_point_icon.svg"
+                                    alt="main logo"
+                                    layout="fill"
+                                    objectFit="cover"
+                                />
+                            </div>
+                            <p className="mr-[2%] text-[5vmin] sm:text-[3vmin] font-bold text-stroke-mini text-shadow-sm">{n2o > 999 ? `${n2o / 1000}k` : n2o}</p>
                         </div>
                     </div>
                 </div>
-                <div className="w-full h-[45%] py-[2%] flex justify-center items-center relative">
-                    <div className={` bg-[#41A4FF] h-full w-[90%] px-[3%] py-[2%] rounded-[23px] flex flex-col gap-[2%] justify-between`}>
-                        <div className="w-full px-[3%] rounded-[23px] flex items-center relative ">
-                            <div className=" w-full flex justify-between z-10 ">
-                                <div className="flex flex-col ">
-                                    <div className=" flex justify-around">
-                                        <p className="w-full text-[6vmin] sm:text-[2vmin] font-normal text-black ">This Week Question</p>
-                                    </div>
-                                    <div className="flex justify-between items-center">
-                                        <p className={` text-black text-[3vmin] sm:text-[1.2vmin] `}>Verified Knowledge.<br />Real Rewards.</p>
-                                    </div>
-                                </div>
-                                <div className="w-[18vmin] sm:w-[6vmin] aspect-[114/129] relative  ">
+                <div className="w-full h-[70%] max-h-[70%] flex justify-center items-center relative">
+                    <div className={` h-full w-full flex flex-col justify-between relative`}>
+                        <div className="flex justify-start gap-[47%] px-[5%] w-full bg-[#FFDE32] border-b-[4px] border-[#FFA800]">
+                            <p className="  text-white text-[4vmin] sm:text-[2vmin] font-bold text-stroke-mini text-shadow-sm">STAGE 001</p>
+                            <p className="  text-white text-[4vmin] sm:text-[2vmin] font-bold text-stroke-mini text-shadow-sm">HIDDEN GEM</p>
+                            <div className=" absolute top-[-5%] right-0">
+                                <div className="w-[5vmax] aspect-[40/57] relative">
                                     <Image
-                                        src="/image/sagu_main_icon.png"
+                                        src="/image/md_fire_icon.svg"
                                         alt="main logo"
                                         layout="fill"
                                         objectFit="cover"
                                     />
                                 </div>
                             </div>
-                            <div className="absolute top-0 right-[5%] w-[60%] aspect-[2/1] bg-gradient-to-b from-[#E1FF41] to-white opacity-60 rounded-[80%] blur-2xl filter"></div>
                         </div>
-                        <div className="w-full h-[50%] bg-[#E1FF41] px-[3%] py-2 flex items-center relative ">
-                            <p className="w-full text-black text-[3.5vmin] sm:text-[2vmin]">{questionDb[week].question}</p>
-                        </div>
-                        <div className="w-full h-[15%] flex justify-center relative gap-[5%]  ">
-                            <Link href="/balance" className="w-[45%] rounded-[24px] py-2  flex flex-col justify-center items-center relative bg-[#E1FF41] active:scale-90 transition-transform duration-100">
-                                <p className=" text-black text-[3.5vmin] sm:text-[1.5vmin] z-10">Go to Answer</p>
-                            </Link>
-                            <Link href="/daily" className="w-[45%] rounded-[24px] py-2 flex flex-col justify-center items-center relative bg-[#FF9041] active:scale-90 transition-transform duration-100">
-                                <p className=" text-black text-[3.5vmin] sm:text-[1.5vmin]">Get Tickets</p>
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-                <div className=" w-[90%] h-[15%] flex justify-between  ">
-                    <div className=" py-2 bg-mainBoxBg rounded-[23px] w-[47%] flex flex-col justify-center items-center relative">
-                        <div className=" w-full flex justify-center gap-[10%]">
-                            <div className="w-[8vmin] sm:w-[6vmin] aspect-[98/101] relative  ">
-                                <Image
-                                    src="/image/sagu_game.png"
-                                    alt="main logo"
-                                    layout="fill"
-                                    objectFit="cover"
-                                />
+                        <div className="h-full w-full bg-no-repeat bg-cover flex justify-center items-center relative "  >
+                            <div className=" absolute w-full h-full">
+                                <div className="w-full h-full relative">
+                                    <Image
+                                        src="/image/game_back.png"
+                                        alt="main logo"
+                                        layout="fill"
+                                        objectFit="cover"
+                                    />
+                                </div>
                             </div>
-                            <p className={` text-white text-[5vmin] sm:text-[3vmin] font-bold
-               mt-1 `}>{n2o >= 1000000 ? `${n2o / 1000000}m` : n2o >= 1000 ? `${n2o / 1000}k` : n2o}</p>
+                            <Puzzle />
                         </div>
-                        <p className=" w-full py-[2%] mt-[4%] text-center text-white text-[3.8vmin] xs:text-[4.5vmin] sm:text-[2.3vmin]
-                        active:scale-90 transition-transform duration-200">Your SAGU Point</p>
-                    </div>
-                    <div className=" py-2 bg-mainBoxBg rounded-[23px] w-[47%] flex flex-col justify-center items-center relative">
-                        <div className=" w-full flex justify-center gap-[10%]">
-                            <div className="w-[8vmin] sm:w-[6vmin] aspect-[72/74] relative  ">
-                                <Image
-                                    src="/image/sagu_ticket_icon.png"
-                                    alt="main logo"
-                                    layout="fill"
-                                    objectFit="cover"
-                                />
-                            </div>
-                            <p className={` text-white text-[5vmin] sm:text-[3vmin] font-bold `}>{tickets}</p>
-                        </div>
-                        <p className=" w-full py-[2%] mt-[4%] text-center text-white text-[3.8vmin] xs:text-[4.5vmin] sm:text-[2.3vmin]
-                        active:scale-90 transition-transform duration-200">Your Tickets</p>
                     </div>
                 </div>
-                <div className="  w-[90%] h-[13%] flex flex-col gap-[5%] justify-evenly items-center relative">
-                    <div className="w-full text-white text-[4vmin] sm:text-[2vmin]">Join Our community</div>
-                    <a href="https://x.com/SAGE_officialX" target="_blank" rel="noopener noreferrer" className="bg-white rounded-[30px] flex justify-between items-center w-full py-[1%] px-4">
-                        <div className="w-[8vmin] sm:w-[5vmin] aspect-[60/60] relative  ">
-                            <Image
-                                src="/image/sagu_x_icon.png"
-                                alt="main logo"
-                                layout="fill"
-                                objectFit="cover"
-                            />
-                        </div>
-                        <p className="text-black text-[4vmin] sm:text-[2vmin]">Join our X , earn SAGU Point</p>
-                        <p className="text-black h-full opacity-60">...</p>
-                    </a>
+                <div className="absolute w-full bottom-[0%]">
+                    <div className="w-full aspect-[432/78] relative">
+                        <Image
+                            src="/image/md_hammer_bg.svg"
+                            alt="main logo"
+                            layout="fill"
+                            objectFit="cover"
+                        />
+                    </div>
                 </div>
+                <div className=" absolute bottom-0 gap-[2%] pr-1 w-full flex justify-end items-center">
+                    <p className="leading-3 text-[2vmax] text-white sm:text-[3vmin] font-bold text-stroke-mini text-shadow-sm -skew-x-12 -rotate-3 ">
+                        Your <br />Magic Pick
+                    </p>
+                    <div className="w-[5vmax] aspect-[45/49] relative">
+                        <Image
+                            src="/image/md_hammer.svg"
+                            alt="main logo"
+                            layout="fill"
+                            objectFit="cover"
+                        />
+                    </div>
+                    <p className="leading-3 text-[2vmax] text-white sm:text-[3vmin] font-bold text-stroke-mini text-shadow-sm -skew-x-12 -rotate-3 ">
+                        {tickets}
+                    </p>
+                </div>
+
             </motion.div>
         </AnimatePresence>
     );
