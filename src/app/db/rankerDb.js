@@ -1,0 +1,35 @@
+const rankerDb = [
+  { name: "pixelnova", score: "19.2B" },
+  { name: "cryptozone", score: "16.7B" },
+  { name: "netflux", score: "16.3B" },
+  { name: "bytegeist", score: "15.8B" },
+  { name: "glitchform", score: "15.2B" },
+  { name: "synapsebit", score: "14.7B" },
+  { name: "quantro", score: "14.4B" },
+  { name: "streamcore", score: "13.9B" },
+  { name: "cyberveil", score: "13.5B" },
+  { name: "driftbyte", score: "12.0B" },
+  { name: "voxenium", score: "11.4B" },
+  { name: "grydex", score: "10.9B" },
+  { name: "hexpulse", score: "10.5B" },
+  { name: "dataraid", score: "9.6B" },
+  { name: "neurozoom", score: "9.3B" },
+  { name: "fluxecho", score: "8.9B" },
+  { name: "orbitune", score: "8.7B" },
+  { name: "mechtide", score: "8.2B" },
+  { name: "codeflare", score: "7.9B" },
+  { name: "astroshift", score: "7.4B" },
+  { name: "tweakbit", score: "7.1B" },
+  { name: "cyphervibe", score: "6.7B" },
+  { name: "gridlynx", score: "6.5B" },
+  { name: "zenthrottle", score: "6.3B" },
+  { name: "cryptorain", score: "6.1B" },
+  { name: "loopcloud", score: "5.8B" },
+  { name: "trancenode", score: "5.6B" },
+  { name: "bitflick", score: "5.2B" },
+  { name: "darkzenith", score: "5.0B" },
+  { name: "snapwisp", score: "4.6B" }
+];
+
+
+export default rankerDb;

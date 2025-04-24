@@ -1,0 +1,54 @@
+/* styles/game.css */
+
+
+/* 스크롤바의 너비 */
+.scroll-container::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* 스크롤바의 배경 */
+.scroll-container::-webkit-scrollbar-track {
+  background: linear-gradient(to bottom, #F5C150, #DE85A1, #7E8FF4);
+  border-radius: 5px;
+}
+
+/* 스크롤바의 핸들 */
+/* 스크롤에 그라데이션 넣기*/
+.scroll-container::-webkit-scrollbar-thumb {
+background: white;
+border-radius: 5px;
+border: 2px solid transparent; 
+background-clip: padding-box, border-box;
+background-origin: border-box;
+}
+
+/*스크롤에 이미지 넣기*/
+/* .scroll-container::-webkit-scrollbar-thumb { */
+  /* background: url('/image/scrollbar.png') no-repeat center center; */
+  /* 이미지 추가 */
+  /* background-size: contain; */
+  /* 이미지 크기 맞추기 */
+  /* border-radius: 10px; */
+  /* 둥근 모서리 */
+  /* border: 1px solid transparent; */
+  /* 테두리 설정 가능 */
+/* } */
+
+
+@media (min-width: 380px) {
+  .scroll-container::-webkit-scrollbar-thumb {
+    background-size: cover; 
+  }
+}
+/* 500px 이상일 때 background-size 변경 */
+@media (min-width: 500px) {
+  .scroll-container::-webkit-scrollbar-thumb {
+    background-size: 100% 100%; /* fill 효과 */
+  }
+}
+
+
+/* 스크롤바 핸들의 hover 상태 */
+/* .scroll-container::-webkit-scrollbar-thumb:hover {
+  background-color: #7A7369;
+} */
