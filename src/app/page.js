@@ -25,7 +25,6 @@ export default function Home() {
   return (
     <div className=" w-full h-full">
       <div className=" w-full h-full max-w-[500px] relative flex flex-col " >
-        <Intro />
         <AnimatePresence mode="wait">
           <motion.div className="w-full flex justify-between relative "
             initial={{ opacity: 0 }}
@@ -42,14 +41,14 @@ export default function Home() {
                   objectFit="cover"
                 />
               </div>
-              <p className="absolute top-[5%] left-[5%] text-[5vmax] text-[#FFFEC4] text-shadow-lg text-stroke -rotate-3 tracking-tighter-3 -skew-x-12 ">
+              <p className="absolute text-[10vmin] sm:text-[5vmin] top-[5%] left-[5%] text-[#FFFEC4] text-shadow-lg text-stroke -rotate-3 tracking-tighter-3 -skew-x-12 ">
                 MIND.D
               </p>
               <div className="w-full flex justify-end items-center px-[5%] absolute bottom-0 ">
-                <p className="text-[2.5vmax] text-[#FFFEC4] text-shadow-lg text-stroke -rotate-3 tracking-tighter-3 -skew-x-12 ">
+                <p className=" text-[7vmin] sm:text-[3vmin] text-[#FFFEC4] text-shadow-lg text-stroke -rotate-3 tracking-tighter-3 -skew-x-12 ">
                   PRODUCE by
                 </p>
-                <div className="w-[13vmin] aspect-[1/1] relative">
+                <div className="w-[13vmin] sm:w-[8vmin] aspect-[1/1] relative">
                   <Image
                     src="/image/md_produce_icon.svg"
                     alt="main logo"

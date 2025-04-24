@@ -2,6 +2,7 @@
 // /app/page.js
 import { useState, useEffect } from "react";
 import GameCanvas from "./canvas";
+import { AnimatePresence, motion } from 'framer-motion';
 
 export default function Puzzle() {
   const [gameState, setGameState] = useState({
@@ -87,12 +88,16 @@ export default function Puzzle() {
   };
 
   return (
-    
-      <div className="px-[13%] sm:px-[5%] max-w-[500px] w-full h-full flex justify-center items-center bg-no-repeat bg-cover z-[998]"   >
+    <AnimatePresence mode="wait">
+      <motion.div className="px-[13%] sm:px-[5%] max-w-[500px] w-full h-full flex justify-center items-center bg-no-repeat bg-cover z-[998]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.4 }} >
         <div className="w-full aspect-[1/1] max-w-[800px] min-w-[200px] flex justify-center rounded-2xl " >
           <GameCanvas gameState={gameState} setGameState={setGameState} />
         </div>
-      </div>
-   
+      </motion.div>
+    </AnimatePresence>
   );
 }

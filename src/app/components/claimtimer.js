@@ -231,7 +231,7 @@ export default function ClaimTimer() {
                         <div className="flex justify-start gap-[47%] px-[5%] w-full bg-[#FFDE32] border-b-[4px] border-[#FFA800]">
                             <p className="  text-white text-[4vmin] sm:text-[2vmin] font-bold text-stroke-mini text-shadow-sm">STAGE 001</p>
                             <p className="  text-white text-[4vmin] sm:text-[2vmin] font-bold text-stroke-mini text-shadow-sm">HIDDEN GEM</p>
-                            <div className=" absolute top-[-5%] right-0">
+                            <div className=" absolute top-[-6%] right-0">
                                 <div className="w-[5vmax] aspect-[40/57] relative">
                                     <Image
                                         src="/image/md_fire_icon.svg"
@@ -268,7 +268,7 @@ export default function ClaimTimer() {
                     </div>
                 </div>
                 <div className=" absolute bottom-0 gap-[2%] pr-1 w-full flex justify-end items-center">
-                    <p className="leading-3 text-[2vmax] text-white sm:text-[3vmin] font-bold text-stroke-mini text-shadow-sm -skew-x-12 -rotate-3 ">
+                    <p className="leading-3 text-[2vmax] text-white sm:text-[1.8vmin] font-bold text-stroke-mini text-shadow-sm -skew-x-12 -rotate-3 ">
                         Your <br />Magic Pick
                     </p>
                     <div className="w-[5vmax] aspect-[45/49] relative">

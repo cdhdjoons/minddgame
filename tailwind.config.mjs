@@ -29,6 +29,9 @@ export default {
         appleNeo: ["var(--font-appleSd-gothic)", "sans-serif"],
         lilita: ['var(--font-lilita-one)', 'sans-serif'],
       },
+      fontSize: {
+        'dynamic-5xl': 'clamp(2.7rem, 5vw, 4rem)', // 최소 1.5rem, 최대 3rem
+      },
       screens: {
         'xs': { 'max': '345px' }, // 345px 이하일 때 적용
       },
