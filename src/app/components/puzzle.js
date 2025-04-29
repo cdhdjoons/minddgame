@@ -13,15 +13,15 @@ export default function Puzzle() {
 
   const GRID_SIZE = 5;
 
-  // 그리드와 보석 초기화
-  useEffect(() => {
+  // 게임 초기화 함수
+  const initializeGame = () => {
     const initialGrid = Array(GRID_SIZE)
       .fill()
       .map(() =>
         Array(GRID_SIZE)
           .fill()
           .map(() => ({
-            depth: 1, // 1~10 사이의 랜덤 깊이
+            depth: 9, // 1~10 사이의 랜덤 깊이
             state: "intact",
           }))
       );
@@ -60,15 +60,22 @@ export default function Puzzle() {
       }
     }
 
-    setGameState({
+    return {
       grid: initialGrid,
       gems: initialGems,
       collectedGems: 0,
-    });
+    };
+  };
 
-    // console.log("Initial Grid:", initialGrid);
-    // console.log("Initial Gems:", initialGems);
+  // 초기화
+  useEffect(() => {
+    setGameState(initializeGame());
   }, []);
+
+  // 게임 리셋 함수
+  const resetGame = () => {
+    setGameState(initializeGame());
+  };
 
   // "치대" 버튼 기능
   const handleChisel = () => {
@@ -94,8 +101,8 @@ export default function Puzzle() {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.4 }} >
-        <div className="w-full aspect-[1/1] max-w-[800px] min-w-[200px] flex justify-center rounded-2xl " >
-          <GameCanvas gameState={gameState} setGameState={setGameState} />
+        <div className="w-full aspect-[1/1] bg-transparent max-w-[800px] min-w-[200px] flex justify-center rounded-2xl " >
+          <GameCanvas gameState={gameState} setGameState={setGameState} resetGame={resetGame} />
         </div>
       </motion.div>
     </AnimatePresence>

@@ -3,20 +3,24 @@
 
 import { useRef, useEffect, useState } from "react";
 
-export default function GameCanvas({ gameState, setGameState }) {
+export default function GameCanvas({ gameState, setGameState, resetGame }) {
     const canvasRef = useRef(null);
     const GRID_SIZE = 5;
     const [tileSize, setTileSize] = useState(0); // TILE_SIZE 동적으로 계산
     const [blockImages, setBlockImages] = useState({}); // depth 구간별 이미지 저장
     const [gemImages, setGemImages] = useState({}); // 보석 이미지 저장
+    const [imagesLoaded, setImagesLoaded] = useState(false); // 이미지 로드 상태
 
     // depth에 따른 이미지 경로 매핑
     const getBlockImageSrc = (depth) => {
         if (depth >= 7) {
+            // console.log("Loading image for depth 10~7: /images/block.png"); // 디버깅 로그
             return "/image/block.png"; // depth 10~7
         } else if (depth >= 4) {
+            // console.log("Loading image for depth 6-4: /images/block_2.png"); // 디버깅 로그
             return "/image/block_2.png"; // depth 6~4
         } else {
+            // console.log("Loading image for depth 3-1: /images/block_3.png"); // 디버깅 로그
             return "/image/block_3.png"; // depth 3~1
         }
     };
@@ -29,7 +33,12 @@ export default function GameCanvas({ gameState, setGameState }) {
     // 이미지 미리 로드
     useEffect(() => {
         const imageSources = [];
-        // 5x5 그리드에 대해 모든 블록 위치의 이미지 경로 생성
+        // 대신 depth 기반 이미지 경로만 추가
+        const blockImageSources = [
+            "/image/block.png",
+            "/image/block_2.png",
+            "/image/block_3.png",
+        ];
         for (let row = 0; row < GRID_SIZE; row++) {
             for (let col = 0; col < GRID_SIZE; col++) {
                 const src = getBlockImageSrc(row, col);
@@ -37,6 +46,7 @@ export default function GameCanvas({ gameState, setGameState }) {
             }
         }
         // 보석 이미지 추가
+        imageSources.push(...blockImageSources);
         imageSources.push("/image/gem_small.png");
         imageSources.push("/image/gem_large.png");
 
@@ -55,6 +65,7 @@ export default function GameCanvas({ gameState, setGameState }) {
                         "/image/gem_small.png": loadedImages["/image/gem_small.png"],
                         "/image/gem_large.png": loadedImages["/image/gem_large.png"],
                     });
+                    setImagesLoaded(true); // 모든 이미지 로드 완료
                 }
             };
             img.onerror = () => {
@@ -66,6 +77,7 @@ export default function GameCanvas({ gameState, setGameState }) {
                         "/image/gem_small.png": null,
                         "/image/gem_large.png": null,
                     });
+                    setImagesLoaded(true); // 실패해도 상태 업데이트
                 }
             };
         });
@@ -103,10 +115,11 @@ export default function GameCanvas({ gameState, setGameState }) {
 
     // 캔버스 그리기 함수
     const drawGrid = (ctx, grid, gems) => {
-        if (!grid || !Array.isArray(grid) || grid.length === 0 || tileSize === 0) {
+        if (!grid || !Array.isArray(grid) || grid.length === 0 || tileSize === 0 || !imagesLoaded) {
+            // console.log("Skipping drawGrid: images not loaded yet");
             return;
         }
-
+        // console.log("Drawing grid with loaded images:", Object.keys(blockImages))
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
         // 1. 맨바닥(깨진 블록) 먼저 그리기
@@ -116,7 +129,7 @@ export default function GameCanvas({ gameState, setGameState }) {
                 const y = row * tileSize;
 
                 if (grid[row]?.[col]?.state === "broken") {
-                    ctx.fillStyle = ""; // Tailwind의 gray-600
+                    ctx.fillStyle = "rgba(0, 0, 0, 0)"; // Tailwind의 gray-600
                     ctx.fillRect(x, y, tileSize, tileSize);
 
                     // 검정색 테두리 추가
@@ -247,11 +260,9 @@ export default function GameCanvas({ gameState, setGameState }) {
                 // 1. 블록이 있는 경우: 블록 깊이 감소
                 if (newGrid[row]?.[col]?.state === "intact") {
                     newGrid[row][col].depth -= 1;
-                    //   console.log(`Clicked/Touched (${row}, ${col}), new depth:`, newGrid[row][col].depth);
 
                     if (newGrid[row][col].depth === 0) {
                         newGrid[row][col].state = "broken";
-                        // console.log(`Block at (${row}, ${col}) is now broken`);
                     }
                 }
                 // 2. 블록이 깨진 상태이고 보석이 있는 경우: 보석 수집
@@ -261,10 +272,18 @@ export default function GameCanvas({ gameState, setGameState }) {
                     );
                     if (gemIndex !== -1) {
                         newGems[gemIndex].collected = true;
-                        // console.log(`Gem collected at (${newGems[gemIndex].row}, ${newGems[gemIndex].col})`);
+                        const newCollectedGems = gameState.collectedGems + 1;
+
+                        // 모든 보석이 수집되었는지 확인
+                        if (newCollectedGems === gameState.gems.length) {
+                            setTimeout(() => {
+                                resetGame(); // 모든 보석 수집 시 게임 리셋
+                            }, 500); // 0.5초 지연 후 리셋
+                        }
+
                         setGameState((prev) => ({
                             ...prev,
-                            collectedGems: prev.collectedGems + 1,
+                            collectedGems: newCollectedGems,
                         }));
                     }
                 }
@@ -284,6 +303,7 @@ export default function GameCanvas({ gameState, setGameState }) {
 
         // 터치 이벤트 핸들러
         const handleTouch = (event) => {
+            // 멀티터치 방지
             if (event.touches.length > 1) return;
 
             event.preventDefault(); // 기본 터치 동작(스크롤 등) 방지
@@ -300,7 +320,7 @@ export default function GameCanvas({ gameState, setGameState }) {
             canvas.removeEventListener("click", handleClick);
             canvas.removeEventListener("touchstart", handleTouch);
         };
-    }, [gameState, setGameState, tileSize])
+    }, [gameState, setGameState, tileSize, resetGame]);
 
     return (
         <canvas

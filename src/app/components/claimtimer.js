@@ -178,7 +178,7 @@ export default function ClaimTimer() {
                             <div className="flex flex-col w-[70%]">
                                 <p className="  text-white text-[4.5vmin] sm:text-[2.5vmin] font-bold text-stroke-mini text-shadow-sm">{teleId}</p>
                                 <div className="w-full flex justify-start items-center gap-2">
-                                    <div className="w-[7vmin] sm:w-[3vmin] aspect-[1/1] relative  ">
+                                    <div className="w-[7.2vmin] sm:w-[3vmin] aspect-[1/1] relative  ">
                                         <Image
                                             src="/image/md_user_gem.svg"
                                             alt="main logo"
@@ -242,7 +242,7 @@ export default function ClaimTimer() {
                                 </div>
                             </div>
                         </div>
-                        <div className="h-full w-full bg-no-repeat bg-cover flex justify-center items-center relative "  >
+                        <div className="h-full w-full flex justify-center items-center relative "  >
                             <div className=" absolute w-full h-full">
                                 <div className="w-full h-full relative">
                                     <Image

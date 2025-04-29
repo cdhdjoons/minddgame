@@ -24,7 +24,7 @@ export default function Intro() {
     return (
         <AnimatePresence mode="wait">
             {showIntro ? (
-                <motion.div className=" z-[99] w-full h-lvh max-w-[500px] max-h-[1080px] bg-black
+                <motion.div className=" z-[99] w-full h-lvh max-w-[500px] max-h-[1080px] 
               flex justify-center items-center overflow-hidden absolute duration-300 "
                     initial={false}
                     animate={{ opacity: 1 }}
