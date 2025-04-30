@@ -45,10 +45,10 @@ export default function Home() {
                 MIND.D
               </p>
               <div className="w-full flex justify-end items-center px-[5%] absolute bottom-0 ">
-                <p className=" text-[7vmin] sm:text-[3vmin] text-[#FFFEC4] text-shadow-lg text-stroke -rotate-3 tracking-tighter-3 -skew-x-12 ">
+                <p className=" text-[5vmin] sm:text-[2vmin] text-[#FFFEC4] text-shadow-lg text-stroke -rotate-3 tracking-tighter-3 -skew-x-12 ">
                   PRODUCE by
                 </p>
-                <div className="w-[13vmin] sm:w-[8vmin] aspect-[1/1] relative">
+                <div className="w-[11vmin] sm:w-[6vmin] aspect-[1/1] relative">
                   <Image
                     src="/image/md_produce_icon.svg"
                     alt="main logo"

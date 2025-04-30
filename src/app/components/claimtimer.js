@@ -164,10 +164,10 @@ export default function ClaimTimer() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
             >
-                <div className="w-full h-[25%] flex justify-center items-center relative ">
+                <div className="w-full h-[10%] flex justify-center items-center relative ">
                     <div className="w-[90%] h-full sm:w-[90%] relative flex flex-col justify-between items-center bg-[#FD7601] rounded-sm border-2 border-black skew-x-[-5deg]">
-                        <div className="w-full h-full flex justify-center gap-[5%] items-center skew-x-[5deg]">
-                            <div className="w-[12vmin] sm:w-[6vmin] aspect-[66/69.66] relative  ">
+                        <div className="w-full h-full flex justify-center py-[1%] gap-[5%] items-center skew-x-[5deg]">
+                            <div className="w-[10vmin] sm:w-[6vmin] aspect-[66/69.66] relative  ">
                                 <Image
                                     src="/image/md_user_pic.svg"
                                     alt="main logo"
@@ -177,16 +177,51 @@ export default function ClaimTimer() {
                             </div>
                             <div className="flex flex-col w-[70%]">
                                 <p className="  text-white text-[4.5vmin] sm:text-[2.5vmin] font-bold text-stroke-mini text-shadow-sm">{teleId}</p>
-                                <div className="w-full flex justify-start items-center gap-2">
-                                    <div className="w-[7.2vmin] sm:w-[3vmin] aspect-[1/1] relative  ">
-                                        <Image
-                                            src="/image/md_user_gem.svg"
-                                            alt="main logo"
-                                            layout="fill"
-                                            objectFit="cover"
-                                        />
+                                <div className=" w-full flex">
+                                    <div className="w-full flex justify-start items-center gap-2">
+                                        <div className="w-[6.5vmin] sm:w-[3vmin] aspect-[1/1] relative  ">
+                                            <Image
+                                                src="/image/md_user_gem.svg"
+                                                alt="main logo"
+                                                layout="fill"
+                                                objectFit="cover"
+                                            />
+                                        </div>
+                                        <p className="text-[#93FF25] text-stroke-mini text-[3vmin]">1</p>
                                     </div>
-                                    <p className="text-[#93FF25] text-stroke-mini text-[3vmin]">13000</p>
+                                    <div className="w-full flex justify-start items-center gap-2">
+                                        <div className="w-[6.5vmin] sm:w-[3vmin] aspect-[1/1] relative  ">
+                                            <Image
+                                                src="/image/md_user_gem.svg"
+                                                alt="main logo"
+                                                layout="fill"
+                                                objectFit="cover"
+                                            />
+                                        </div>
+                                        <p className="text-[#93FF25] text-stroke-mini text-[3vmin]">2</p>
+                                    </div>
+                                    <div className="w-full flex justify-start items-center gap-2">
+                                        <div className="w-[6.5vmin] sm:w-[3vmin] aspect-[1/1] relative  ">
+                                            <Image
+                                                src="/image/md_user_gem.svg"
+                                                alt="main logo"
+                                                layout="fill"
+                                                objectFit="cover"
+                                            />
+                                        </div>
+                                        <p className="text-[#93FF25] text-stroke-mini text-[3vmin]">3</p>
+                                    </div>
+                                    <div className="w-full flex justify-start items-center gap-2">
+                                        <div className="w-[6.5vmin] sm:w-[3vmin] aspect-[1/1] relative  ">
+                                            <Image
+                                                src="/image/md_user_gem.svg"
+                                                alt="main logo"
+                                                layout="fill"
+                                                objectFit="cover"
+                                            />
+                                        </div>
+                                        <p className="text-[#93FF25] text-stroke-mini text-[3vmin]">4</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -226,7 +261,7 @@ export default function ClaimTimer() {
                         </div>
                     </div>
                 </div>
-                <div className="w-full h-[70%] max-h-[70%] flex justify-center items-center relative">
+                <div className="w-full h-[80%] flex flex-col justify-center items-center relative">
                     <div className={` h-full w-full flex flex-col justify-between relative`}>
                         <div className="flex justify-start gap-[47%] px-[5%] w-full bg-[#FFDE32] border-b-[4px] border-[#FFA800]">
                             <p className="  text-white text-[4vmin] sm:text-[2vmin] font-bold text-stroke-mini text-shadow-sm">STAGE 001</p>
@@ -256,33 +291,26 @@ export default function ClaimTimer() {
                             <Puzzle />
                         </div>
                     </div>
-                </div>
-                <div className="absolute w-full bottom-[0%]">
-                    <div className="w-full aspect-[432/78] relative">
-                        <Image
-                            src="/image/md_hammer_bg.svg"
-                            alt="main logo"
-                            layout="fill"
-                            objectFit="cover"
-                        />
+                    <div className=" w-full  flex justify-center items-center bg-gradient-to-r from-[#FD7601] to-[#F39A4D] ">
+                        <div className=" gap-[2%] w-full flex justify-evenly items-center">
+                            <p className="leading-3 text-[2vmax] text-white sm:text-[1.8vmin] font-bold text-stroke-mini text-shadow-sm -skew-x-12 -rotate-3 ">
+                                Your <br />Magic Pick
+                            </p>
+                            <div className="w-[5vmax] aspect-[45/49] relative">
+                                <Image
+                                    src="/image/md_hammer.svg"
+                                    alt="main logo"
+                                    layout="fill"
+                                    objectFit="cover"
+                                />
+                            </div>
+                            <p className="leading-3 text-[2vmax] text-white sm:text-[3vmin] font-bold text-stroke-mini text-shadow-sm -skew-x-12 -rotate-3 ">
+                                {tickets}
+                            </p>
+                        </div>
                     </div>
                 </div>
-                <div className=" absolute bottom-0 gap-[2%] pr-1 w-full flex justify-end items-center">
-                    <p className="leading-3 text-[2vmax] text-white sm:text-[1.8vmin] font-bold text-stroke-mini text-shadow-sm -skew-x-12 -rotate-3 ">
-                        Your <br />Magic Pick
-                    </p>
-                    <div className="w-[5vmax] aspect-[45/49] relative">
-                        <Image
-                            src="/image/md_hammer.svg"
-                            alt="main logo"
-                            layout="fill"
-                            objectFit="cover"
-                        />
-                    </div>
-                    <p className="leading-3 text-[2vmax] text-white sm:text-[3vmin] font-bold text-stroke-mini text-shadow-sm -skew-x-12 -rotate-3 ">
-                        {tickets}
-                    </p>
-                </div>
+
 
             </motion.div>
         </AnimatePresence>

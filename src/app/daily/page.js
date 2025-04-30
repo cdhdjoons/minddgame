@@ -48,7 +48,7 @@ export default function DailyTask() {
         if (savedCount) {
             setInviteCount(Number(savedCount));
         }
-        
+
     }, []);
 
     //daily 클릭 시 상태 업데이트 
@@ -100,13 +100,13 @@ export default function DailyTask() {
     return (
         <TonConnectUIProvider manifestUrl={manifestUrl}>
             <AnimatePresence mode="wait">
-                <motion.div className={` w-full h-full flex flex-col justify-evenly items-center overflow-scroll`}
+                <motion.div className={` w-full h-full flex flex-col justify-between items-center overflow-scroll`}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 1 }}
                 >
-                    <div className="w-[90%] h-[30%] px-[3%] py-[1%] flex flex-col justify-between items-start ">
+                    {/* <div className="w-[90%] h-[30%] px-[3%] py-[1%] flex flex-col justify-between items-start ">
                         <div className=" w-full flex flex-col ">
                             <p className="text-white text-[3.5vmin] sm:text-[2.5vmin] xs:text-[4.5vmin]">Task center</p>
                         </div>
@@ -124,10 +124,281 @@ export default function DailyTask() {
                         </div>
                         
                         <Tickets />
+                    </div> */}
+                    <div className="w-full max-w-[500px] flex flex-col items-start relative ">
+                        <div className="w-full aspect-[402/100] relative">
+                            <Image
+                                src="/image/md_title_bg.svg"
+                                alt="main logo"
+                                layout="fill"
+                                objectFit="cover"
+                            />
+                        </div>
+                        <p className="absolute text-[10vmin] sm:text-[5vmin] top-[5%] left-[5%] text-[#FFFEC4] text-shadow-lg text-stroke -rotate-3 tracking-tighter-3 -skew-x-12 ">
+                            MISSION
+                        </p>
                     </div>
-                    <div className=" w-full h-[60%] px-[2%]  flex flex-col items-center " >
-                        <div className=" w-full h-full flex flex-col justify-evenly items-center relative gap-2">
-                            {/* <p className=" text-[1.5vmax] sm:text-[1.3vmax] text-[#00FF08] font-bold">{remainHours}/24h</p> */}
+                    <p className=" text-[2vmax] sm:text-[1.3vmax] text-white text-stroke-middle flex flex-col justify-center items-center">Daily missions are updated at 00:00 UTC.<br /> <span className="text-[#F5D932]">Remain {remainHours} hours</span></p>
+
+                    <div className=" w-full h-[85%] px-[2%] flex flex-col justify-evenly items-center overflow-hidden " >
+                        <div className="w-full h-[12%] sm:w-[90%] relative flex flex-col justify-between items-center bg-[#C8D65C] rounded-sm border-2 border-black skew-x-[-5deg]">
+                            <div className="w-full h-full flex justify-center items-center skew-x-[5deg] relative">
+                                <div className="absolute top-[-20%] w-[105%] flex justify-between items-center">
+                                    <div className="w-[8vmin] sm:w-[3vmin] aspect-[39/39] relative rotate-2">
+                                        <Image
+                                            src="/image/md_invite_check.svg"
+                                            alt="main logo"
+                                            layout="fill"
+                                            objectFit="cover"
+                                        />
+                                    </div>
+                                    <div className="w-[7vmin] sm:w-[2vmin] aspect-[41.5/41.7] relative rotate-2 ">
+                                        <Image
+                                            src="/image/md_invite_info.svg"
+                                            alt="main logo"
+                                            layout="fill"
+                                            objectFit="cover"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="w-[18vmin] sm:w-[20vmin] aspect-[83/77] relative mt-[2%]">
+                                    <Image
+                                        src="/image/md_invite_gem_icon.svg"
+                                        alt="main logo"
+                                        layout="fill"
+                                        objectFit="cover"
+                                    />
+                                </div>
+                                <div className="flex flex-col w-[50%]">
+                                    <div className="w-full flex justify-start items-center gap-2">
+                                        <p className="text-white text-stroke-middle text-[4vmin]">Daily Reward</p>
+                                        <div className="flex">
+                                            <div className="w-[8vmin] sm:w-[3vmin] aspect-[31/25] relative  ">
+                                                <Image
+                                                    src="/image/md_point_icon.svg"
+                                                    alt="main logo"
+                                                    layout="fill"
+                                                    objectFit="cover"
+                                                />
+                                            </div>
+                                            <p className="text-white text-stroke-middle text-[4vmin]">+1,000</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className=" absolute bottom-[-30%] w-[70%] flex  justify-center items-center 
+                                                        bg-[radial-gradient(ellipse,#F4D316,#552D00)] skew-x-[-5deg] border-black border-[1px]
+                                                        active:scale-90 transition-transform duration-100">
+                                    <p className=" text-[#F5D932] text-[4.5vmin] sm:text-[2.5vmin] text-stroke-middle">Get Reward</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="w-full h-[12%] sm:w-[90%] relative flex flex-col justify-between items-center bg-[#C8D65C] rounded-sm border-2 border-black skew-x-[-5deg]">
+                            <div className="w-full h-full flex justify-center items-center skew-x-[5deg] relative">
+                                <div className="absolute top-[-20%] w-[105%] flex justify-between items-center">
+                                    <div className="w-[8vmin] sm:w-[3vmin] aspect-[39/39] relative rotate-2">
+                                        <Image
+                                            src="/image/md_invite_check.svg"
+                                            alt="main logo"
+                                            layout="fill"
+                                            objectFit="cover"
+                                        />
+                                    </div>
+                                    <div className="w-[7vmin] sm:w-[2vmin] aspect-[41.5/41.7] relative rotate-2 ">
+                                        <Image
+                                            src="/image/md_invite_info.svg"
+                                            alt="main logo"
+                                            layout="fill"
+                                            objectFit="cover"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="w-[18vmin] sm:w-[20vmin] aspect-[83/77] relative mt-[2%]">
+                                    <Image
+                                        src="/image/md_invite_gem_icon.svg"
+                                        alt="main logo"
+                                        layout="fill"
+                                        objectFit="cover"
+                                    />
+                                </div>
+                                <div className="flex flex-col w-[50%]">
+                                    <div className="w-full flex justify-start items-center gap-2">
+                                        <p className="text-white text-stroke-middle text-[4vmin]">Daily Reward</p>
+                                        <div className="flex">
+                                            <div className="w-[8vmin] sm:w-[3vmin] aspect-[31/25] relative  ">
+                                                <Image
+                                                    src="/image/md_point_icon.svg"
+                                                    alt="main logo"
+                                                    layout="fill"
+                                                    objectFit="cover"
+                                                />
+                                            </div>
+                                            <p className="text-white text-stroke-middle text-[4vmin]">+1,000</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className=" absolute bottom-[-30%] w-[70%] flex  justify-center items-center 
+                                                        bg-[radial-gradient(ellipse,#F4D316,#552D00)] skew-x-[-5deg] border-black border-[1px]
+                                                        active:scale-90 transition-transform duration-100">
+                                    <p className=" text-[#F5D932] text-[4.5vmin] sm:text-[2.5vmin] text-stroke-middle">Get Reward</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="w-full h-[12%] sm:w-[90%] relative flex flex-col justify-between items-center bg-[#C8D65C] rounded-sm border-2 border-black skew-x-[-5deg]">
+                            <div className="w-full h-full flex justify-center items-center skew-x-[5deg] relative">
+                                <div className="absolute top-[-20%] w-[105%] flex justify-between items-center">
+                                    <div className="w-[8vmin] sm:w-[3vmin] aspect-[39/39] relative rotate-2">
+                                        <Image
+                                            src="/image/md_invite_check.svg"
+                                            alt="main logo"
+                                            layout="fill"
+                                            objectFit="cover"
+                                        />
+                                    </div>
+                                    <div className="w-[7vmin] sm:w-[2vmin] aspect-[41.5/41.7] relative rotate-2 ">
+                                        <Image
+                                            src="/image/md_invite_info.svg"
+                                            alt="main logo"
+                                            layout="fill"
+                                            objectFit="cover"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="w-[18vmin] sm:w-[20vmin] aspect-[83/77] relative mt-[2%]">
+                                    <Image
+                                        src="/image/md_invite_gem_icon.svg"
+                                        alt="main logo"
+                                        layout="fill"
+                                        objectFit="cover"
+                                    />
+                                </div>
+                                <div className="flex flex-col w-[50%]">
+                                    <div className="w-full flex justify-start items-center gap-2">
+                                        <p className="text-white text-stroke-middle text-[4vmin]">Daily Reward</p>
+                                        <div className="flex">
+                                            <div className="w-[8vmin] sm:w-[3vmin] aspect-[31/25] relative  ">
+                                                <Image
+                                                    src="/image/md_point_icon.svg"
+                                                    alt="main logo"
+                                                    layout="fill"
+                                                    objectFit="cover"
+                                                />
+                                            </div>
+                                            <p className="text-white text-stroke-middle text-[4vmin]">+1,000</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className=" absolute bottom-[-30%] w-[70%] flex  justify-center items-center 
+                                                        bg-[radial-gradient(ellipse,#F4D316,#552D00)] skew-x-[-5deg] border-black border-[1px]
+                                                        active:scale-90 transition-transform duration-100">
+                                    <p className=" text-[#F5D932] text-[4.5vmin] sm:text-[2.5vmin] text-stroke-middle">Get Reward</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="w-full h-[12%] sm:w-[90%] relative flex flex-col justify-between items-center bg-[#C8D65C] rounded-sm border-2 border-black skew-x-[-5deg]">
+                            <div className="w-full h-full flex justify-center items-center skew-x-[5deg] relative">
+                                <div className="absolute top-[-20%] w-[105%] flex justify-between items-center">
+                                    <div className="w-[8vmin] sm:w-[3vmin] aspect-[39/39] relative rotate-2">
+                                        <Image
+                                            src="/image/md_invite_check.svg"
+                                            alt="main logo"
+                                            layout="fill"
+                                            objectFit="cover"
+                                        />
+                                    </div>
+                                    <div className="w-[7vmin] sm:w-[2vmin] aspect-[41.5/41.7] relative rotate-2 ">
+                                        <Image
+                                            src="/image/md_invite_info.svg"
+                                            alt="main logo"
+                                            layout="fill"
+                                            objectFit="cover"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="w-[18vmin] sm:w-[20vmin] aspect-[83/77] relative mt-[2%]">
+                                    <Image
+                                        src="/image/md_invite_gem_icon.svg"
+                                        alt="main logo"
+                                        layout="fill"
+                                        objectFit="cover"
+                                    />
+                                </div>
+                                <div className="flex flex-col w-[50%]">
+                                    <div className="w-full flex justify-start items-center gap-2">
+                                        <p className="text-white text-stroke-middle text-[4vmin]">Daily Reward</p>
+                                        <div className="flex">
+                                            <div className="w-[8vmin] sm:w-[3vmin] aspect-[31/25] relative  ">
+                                                <Image
+                                                    src="/image/md_point_icon.svg"
+                                                    alt="main logo"
+                                                    layout="fill"
+                                                    objectFit="cover"
+                                                />
+                                            </div>
+                                            <p className="text-white text-stroke-middle text-[4vmin]">+1,000</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className=" absolute bottom-[-30%] w-[70%] flex  justify-center items-center 
+                                                        bg-[radial-gradient(ellipse,#F4D316,#552D00)] skew-x-[-5deg] border-black border-[1px]
+                                                        active:scale-90 transition-transform duration-100">
+                                    <p className=" text-[#F5D932] text-[4.5vmin] sm:text-[2.5vmin] text-stroke-middle">Get Reward</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="w-full h-[12%] sm:w-[90%] relative flex flex-col justify-between items-center bg-[#C8D65C] rounded-sm border-2 border-black skew-x-[-5deg]">
+                            <div className="w-full h-full flex justify-center items-center skew-x-[5deg] relative">
+                                <div className="absolute top-[-20%] w-[105%] flex justify-between items-center">
+                                    <div className="w-[8vmin] sm:w-[3vmin] aspect-[39/39] relative rotate-2">
+                                        <Image
+                                            src="/image/md_invite_check.svg"
+                                            alt="main logo"
+                                            layout="fill"
+                                            objectFit="cover"
+                                        />
+                                    </div>
+                                    <div className="w-[7vmin] sm:w-[2vmin] aspect-[41.5/41.7] relative rotate-2 ">
+                                        <Image
+                                            src="/image/md_invite_info.svg"
+                                            alt="main logo"
+                                            layout="fill"
+                                            objectFit="cover"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="w-[18vmin] sm:w-[20vmin] aspect-[83/77] relative mt-[2%]">
+                                    <Image
+                                        src="/image/md_invite_gem_icon.svg"
+                                        alt="main logo"
+                                        layout="fill"
+                                        objectFit="cover"
+                                    />
+                                </div>
+                                <div className="flex flex-col w-[50%]">
+                                    <div className="w-full flex justify-start items-center gap-2">
+                                        <p className="text-white text-stroke-middle text-[4vmin]">Daily Reward</p>
+                                        <div className="flex">
+                                            <div className="w-[8vmin] sm:w-[3vmin] aspect-[31/25] relative  ">
+                                                <Image
+                                                    src="/image/md_point_icon.svg"
+                                                    alt="main logo"
+                                                    layout="fill"
+                                                    objectFit="cover"
+                                                />
+                                            </div>
+                                            <p className="text-white text-stroke-middle text-[4vmin]">+1,000</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className=" absolute bottom-[-30%] w-[70%] flex  justify-center items-center 
+                                                        bg-[radial-gradient(ellipse,#F4D316,#552D00)] skew-x-[-5deg] border-black border-[1px]
+                                                        active:scale-90 transition-transform duration-100">
+                                    <p className=" text-[#F5D932] text-[4.5vmin] sm:text-[2.5vmin] text-stroke-middle">Get Reward</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {/* <div className=" w-full h-full flex flex-col justify-evenly items-center relative gap-2">
+                            
                             <div className=" w-[90%] relative flex justify-between items-center">
                                 <div className=" w-[13vmin] sm:w-[7vmin] aspect-[98/101] relative ">
                                     <Image
@@ -179,59 +450,7 @@ export default function DailyTask() {
                                     </a>
                                 </div>
                             </div>
-
-                            <div className=" w-[90%] relative flex justify-between items-center">
-                                <div className=" w-[14vmin] sm:w-[8vmin] aspect-[98/101] relative ">
-                                    <Image
-                                        src="/image/sagu_game.png"
-                                        alt="meatIcon"
-                                        layout="fill"
-                                        objectFit="cover"
-                                    />
-                                </div>
-                                <div className=" flex flex-col items-start w-[55%] ">
-                                    <p className=" text-[2.1vmax] xs:text-[2.3vmax] sm:text-[2.2vmin] font-bold text-white">Option Task</p>
-
-                                </div>
-                                <p className=" w-[20%] text-center font-bold text-[#66B6FF] text-[2.5vmax] xs:text-[2.3vmax] sm:text-[2.2vmin] ">+</p>
-                            </div>
-                            <div className=" w-[90%] px-[5%] flex flex-col justify-center items-center bg-white rounded-[23px]">
-                                <div className=" w-full flex justify-between items-center border-b-[0.5px] border-b-black py-[2%]">
-                                    <div className=" w-[12vmin] sm:w-[6vmin] aspect-[98/101] relative ">
-                                        <Image
-                                            src="/image/sagu_game.png"
-                                            alt="meatIcon"
-                                            layout="fill"
-                                            objectFit="cover"
-                                        />
-                                    </div>
-                                    <div className=" flex flex-col items-start w-[55%] ">
-                                        <p className=" text-[2.1vmax] xs:text-[2.3vmax] sm:text-[2.2vmin] font-bold text-black">Follow X</p>
-                                        <p className=" text-[1.8vmax] xs:text-[1.5vmax] sm:text-[1.9vmin] text-[#C0C0C0]">1K SAGU</p>
-                                    </div>
-                                    <a href="https://x.com/SAGE_officialX" target="_blank" rel="noopener noreferrer" className={` w-[20%] bg-[#767DFF] h-[50%] rounded-3xl relative duration-300 transition-all ${disabledTask[0] ? 'opacity-100' : 'opacity-20'}`}>
-                                        <div onClick={() => handleClick(0, 1000)} className={`w-[40%] duration-300 aspect-[1/1] transition-all rounded-full bg-white absolute top-[50%] -translate-y-[50%] ${disabledTask[0] ? "-translate-x-[100%] left-full" : "translate-x-0 left-0"}`}></div>
-                                    </a>
-                                </div>
-                                <div className=" w-full flex justify-between items-center py-[2%] ">
-                                    <div className=" w-[12vmin] sm:w-[6vmin] aspect-[98/101] relative ">
-                                        <Image
-                                            src="/image/sagu_game.png"
-                                            alt="meatIcon"
-                                            layout="fill"
-                                            objectFit="cover"
-                                        />
-                                    </div>
-                                    <div className=" flex flex-col items-start w-[55%] ">
-                                        <p className=" text-[2.1vmax] xs:text-[2.3vmax] sm:text-[2.2vmin] font-bold text-black">Invite 5 users</p>
-                                        <p className=" text-[1.8vmax] xs:text-[1.5vmax] sm:text-[1.9vmin] text-[#C0C0C0]">5k SAGU | {inviteCount}/5users</p>
-                                    </div>
-                                    <div className={` w-[20%] bg-[#767DFF] h-[50%] rounded-3xl relative duration-300 transition-all ${disabledTask[1] ? 'opacity-100' : 'opacity-20'}`}>
-                                        <div onClick={() => handleClick(1, 5000)} className={`w-[40%] duration-300 aspect-[1/1] transition-all rounded-full bg-white absolute top-[50%] -translate-y-[50%] ${disabledTask[1] ? "-translate-x-[100%] left-full" : "translate-x-0 left-0"}`}></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </div> */}
                     </div>
                 </motion.div>
             </AnimatePresence>

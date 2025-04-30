@@ -65,100 +65,76 @@ export default function LeaderBoard() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 1 }}
             >
-                <div className=" w-full h-full max-w-[500px] relative flex flex-col justify-evenly items-center " >
-                    <div className="w-[90%] max-w-[500px] px-[3%] flex flex-col items-start  ">
-                        <div className=" w-full flex flex-col">
-                            <p className="text-white text-[3.5vmin] sm:text-[2.5vmin] xs:text-[4.5vmin]">Union center</p>
-                        </div>
-                        <div className="w-[50vmin] sm:w-[40vmin] aspect-[306/59] relative">
+                <div className=" w-full h-full max-w-[500px] relative flex flex-col justify-between items-center " >
+                    <div className="w-full max-w-[500px] flex flex-col items-start relative ">
+                        <div className="w-full aspect-[402/100] relative">
                             <Image
-                                src="/image/sagu_logo.png"
+                                src="/image/md_title_bg.svg"
                                 alt="main logo"
                                 layout="fill"
                                 objectFit="cover"
                             />
                         </div>
+                        <p className="absolute text-[10vmin] sm:text-[5vmin] top-[5%] left-[5%] text-[#FFFEC4] text-shadow-lg text-stroke -rotate-3 tracking-tighter-3 -skew-x-12 ">
+                            RANK
+                        </p>
                     </div>
-                    <div className=" flex flex-col items-center ">
-                        <div className=" w-[25vmax] sm:w-[20vmax] aspect-[264/264] relative active:scale-90 transition-transform duration-200">
-                            <Image
-                                src="/image/pdb_rankcircle_border.png"
-                                alt="main logo"
-                                layout="fill"
-                                objectFit="fill"
-                                className="z-[90]"
-                            />
-                            <svg
-                                className="absolute left-[50%] top-[50%] p-[4%] -translate-y-[50%] -translate-x-[50%] w-[115%] transform rotate-90" // 6시 방향부터 시작하도록 회전
-                                viewBox="0 0 100 100"
-                            >
-                                <defs>
-                                    <linearGradient id="gradientColors" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stopColor="#F5C150" />
-                                        <stop offset="50%" stopColor="#7E68E7" />
-                                        <stop offset="100%" stopColor="#57B2FB" />
-                                    </linearGradient>
-                                </defs>
-                                {/* 배경 원 */}
-                                <circle
-                                    cx="50"
-                                    cy="50"
-                                    r="40"
-                                    stroke="black"
-                                    strokeWidth="5"
-                                    fill="none"
+                    <div className="w-[90%] max-w-[500px] flex flex-col items-start relative  ">
+                        <p className=" text-[5vmin] sm:text-[5vmin]  text-white text-shadow-sm text-stroke-middle leading-5 ">
+                            Your rank will increase based on your
+                            accumulated points.
+                        </p>
+                        <p className=" text-[4vmin] sm:text-[5vmin]  text-white text-shadow-none text-stroke-middle leading-4 ">
+                            The higher the rank you reach,<br />
+                            the more special benefits you will receive.
+                        </p>
+                    </div>
+                    <p className=" text-[7vmin] sm:text-[6vmin] py-2 text-[#FFC11E] text-shadow-none text-stroke-middle leading-4 ">
+                        {teleId}
+                    </p>
+                    <div className=" w-full flex flex-col items-center ">
+                        <div className=" w-[90%] relative flex justify-center items-center ">
+                            <div className="w-[50%] aspect-[180/113] relative rounded-full ">
+                                <Image
+                                    src="/image/md_rank_logo.svg"
+                                    alt="main logo"
+                                    layout="fill"
+                                    objectFit="fill"
                                 />
-                                {/* 진행 원 */}
-                                <circle
-                                    cx="50"
-                                    cy="50"
-                                    r="40"
-                                    stroke="url(#gradientColors)"
-                                    strokeWidth="5"
-                                    fill="none"
-                                    strokeDasharray="251.2"
-                                    strokeDashoffset={251.2 - (n2o / 10000) * 251.2}
-                                    strokeLinecap="round"
-                                    className="transition-all duration-300"
-                                />
-                            </svg>
-                            <div className=" absolute left-[50%] top-[50%] p-[4%] -translate-y-[50%] -translate-x-[50%] w-[90%] h-[90%] rounded-full ">
-                                <div className="w-full aspect-[1/1] relative rounded-full ">
-                                    <Image
-                                        src="/image/sagu_rank_main.png"
-                                        alt="main logo"
-                                        layout="fill"
-                                        objectFit="fill"
-                                    />
-                                </div>
                             </div>
-                            <p className=" absolute bottom-[-8%] left-[50%] -translate-x-1/2 text-[#7EFFCC] text-[3.5vmin] sm:text-[1.5vmin]">{teleId === undefined ? '--' : teleId}</p>
-                            <div className=" absolute bottom-[5%] left-[50%] -translate-x-1/2 flex gap-[5px] z-[100]">
+                            {/* <div className=" absolute bottom-[5%] left-[50%] -translate-x-1/2 flex gap-[5px] z-[100]">
                                 <p className=" text-[#7EFFCC] text-[2.8vmin] sm:text-[1vmin]">Rank</p>
                                 <p className=" text-[#7EFFCC] text-[2.8vmin] sm:text-[1vmin]">{rank}</p>
-                            </div>
-                            <div className=" absolute bottom-[-20%] left-[50%] -translate-x-1/2 flex justify-between items-center gap-[5px]">
-                                <p className=" text-[#7EFFCC] text-[4.8vmin] sm:text-[2vmin]">{n2o}</p>
+                            </div> */}
+                            <div className=" absolute top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2 flex justify-between items-center gap-[5px]">
+                                <p className=" text-white text-[5.5vmin] sm:text-[3.5vmin]">{n2o}</p>
                             </div>
                         </div>
                     </div>
-                    <p className="w-full text-center text-[4vmax] sm:text-[4vmin] text-white mt-[5%] font-bold [-webkit-text-stroke:0.5px_black] ">{holderCount}k Holders</p>
-                    <div className="  w-[90%] py-3 flex justify-center items-center max-h-[30vmax] sm:max-h-[500px] 
-                     bg-[length:100%_100%] bg-no-repeat " >
+                    {/* <p className="w-full text-center text-[4vmax] sm:text-[4vmin] text-white mt-[5%] font-bold [-webkit-text-stroke:0.5px_black] ">{holderCount}k Holders</p> */}
+                    <div className=" w-[90%] h-[50%] py-3 flex justify-center items-center " >
                         <div className="scroll-container w-[85%] h-[95%] flex flex-col gap-3 overflow-scroll overflow-x-hidden">
                             {rankerDb.map((ranker, index) => (
-                                <div key={ranker.name} className="w-full flex justify-stretch items-center " >
-                                    <div className=" relative w-[20%] aspect-[98/101]">
+                                <div key={ranker.name} className="w-full flex justify-stretch items-center bg-[#00112D] " >
+                                    <div className=" relative w-[20%] aspect-[67/60]">
                                         <Image
-                                            src="/image/sagu_game.png"
+                                            src="/image/md_rank_num.svg"
+                                            alt="rank logo"
+                                            layout="fill"
+                                            objectFit="cover"
+                                        />
+                                        <p className=" absolute top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2 text-center text-white font-bold text-[6.5vmin] sm:text-[4vmin]">{index > 8 ? `${index + 1}` : `${index + 1}`}</p>
+                                    </div>
+                                    <p className=" w-[45%] text-center text-white font-bold text-[3.5vmin] sm:text-[1.5vmin]">{ranker.name}</p>
+                                    <div className="w-[8vmin] sm:w-[6vmin] aspect-[31/25] relative">
+                                        <Image
+                                            src="/image/md_point_icon.svg"
                                             alt="main logo"
                                             layout="fill"
                                             objectFit="cover"
                                         />
                                     </div>
-                                    <p className=" w-[45%] text-center text-white font-bold text-[3.5vmin] sm:text-[1.5vmin]">{ranker.name}</p>
                                     <p className=" flex-1 text-center text-white font-bold text-[4vmin] sm:text-[1.5vmin]">{ranker.score}</p>
-                                    <p className=" flex-1 text-center text-white font-bold text-[4vmin] sm:text-[2vmin]">{index > 8 ? `0${index + 1}` : `00${index + 1}`}</p>
                                 </div>
                             ))}
 

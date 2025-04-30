@@ -66,6 +66,10 @@ export default {
           '-webkit-text-stroke': '0.2px black',
           'text-stroke': '0.2px black', // 비표준 속성, 호환성 고려
         },
+        '.text-stroke-middle': {
+          '-webkit-text-stroke': '1px black',
+          'text-stroke': '1px black', // 비표준 속성, 호환성 고려
+        },
       };
       addUtilities(newUtilities);
     },
