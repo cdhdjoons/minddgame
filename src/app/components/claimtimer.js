@@ -7,19 +7,21 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUpCircle } from "lucide-react";
 import questionDb from "../db/questionDb";
 import Puzzle from "./puzzle";
+import { useHammer } from "../context/hammerContext";
 
 export default function ClaimTimer() {
     const TIMER_DURATION = 21600; // 6 hours in seconds
 
-    const [time, setTime] = useState(TIMER_DURATION); // 10초 타이머
+    // const [time, setTime] = useState(TIMER_DURATION); // 10초 타이머
     const [onClaim, setOnClaim] = useState(false);
     const [n2o, setN2O] = useState(0);
     const timerRef = useRef(null);
     const hasFinished = useRef(false);
     const [tickets, setTickets] = useState(0);
-    const [week, setWeek] = useState(0);
+    // const [week, setWeek] = useState(0);
     const [teleId, setTeleId] = useState('unknown');
-
+    const [totalGems, setTotalGems] = useState(0);
+    const { hammerCount } = useHammer();
 
     useEffect(() => {
         const checkTelegramSDK = () => {
@@ -75,16 +77,17 @@ export default function ClaimTimer() {
             setN2O(Number(storedN2O));
         }
 
+
         // 초기 티켓 값 불러오기
         const storedTickets = localStorage.getItem("tickets");
         if (storedTickets !== null) {
             setTickets(Number(storedTickets));
         }
         //몇 주 차 인지 값 불러오기
-        const storedWeek = localStorage.getItem("week");
-        if (storedWeek !== null) {
-            setWeek(Number(storedWeek));
-        }
+        // const storedWeek = localStorage.getItem("week");
+        // if (storedWeek !== null) {
+        //     setWeek(Number(storedWeek));
+        // }
 
 
         // Cleanup interval on unmount
@@ -158,7 +161,7 @@ export default function ClaimTimer() {
 
     return (
         <AnimatePresence mode="wait">
-            <motion.div className={` h-full flex flex-col justify-between items-center relative  `}
+            <motion.div className={` h-full flex flex-col justify-between items-center relative pb-1 overflow-hidden `}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -181,7 +184,7 @@ export default function ClaimTimer() {
                                     <div className="w-full flex justify-start items-center gap-2">
                                         <div className="w-[6.5vmin] sm:w-[3vmin] aspect-[1/1] relative  ">
                                             <Image
-                                                src="/image/md_user_gem.svg"
+                                                src="/image/gem_small.svg"
                                                 alt="main logo"
                                                 layout="fill"
                                                 objectFit="cover"
@@ -192,7 +195,7 @@ export default function ClaimTimer() {
                                     <div className="w-full flex justify-start items-center gap-2">
                                         <div className="w-[6.5vmin] sm:w-[3vmin] aspect-[1/1] relative  ">
                                             <Image
-                                                src="/image/md_user_gem.svg"
+                                                src="/image/gem_large.svg"
                                                 alt="main logo"
                                                 layout="fill"
                                                 objectFit="cover"
@@ -203,7 +206,7 @@ export default function ClaimTimer() {
                                     <div className="w-full flex justify-start items-center gap-2">
                                         <div className="w-[6.5vmin] sm:w-[3vmin] aspect-[1/1] relative  ">
                                             <Image
-                                                src="/image/md_user_gem.svg"
+                                                src="/image/gem_2x1_icon.svg"
                                                 alt="main logo"
                                                 layout="fill"
                                                 objectFit="cover"
@@ -214,7 +217,7 @@ export default function ClaimTimer() {
                                     <div className="w-full flex justify-start items-center gap-2">
                                         <div className="w-[6.5vmin] sm:w-[3vmin] aspect-[1/1] relative  ">
                                             <Image
-                                                src="/image/md_user_gem.svg"
+                                                src="/image/gem_1x3_icon.svg"
                                                 alt="main logo"
                                                 layout="fill"
                                                 objectFit="cover"
@@ -261,19 +264,20 @@ export default function ClaimTimer() {
                         </div>
                     </div>
                 </div>
-                <div className="w-full h-[80%] flex flex-col justify-center items-center relative">
+                <div className="w-full h-[80%] flex flex-col justify-center items-center relative ">
                     <div className={` h-full w-full flex flex-col justify-between relative`}>
                         <div className="flex justify-start gap-[47%] px-[5%] w-full bg-[#FFDE32] border-b-[4px] border-[#FFA800]">
                             <p className="  text-white text-[4vmin] sm:text-[2vmin] font-bold text-stroke-mini text-shadow-sm">STAGE 001</p>
                             <p className="  text-white text-[4vmin] sm:text-[2vmin] font-bold text-stroke-mini text-shadow-sm">HIDDEN GEM</p>
-                            <div className=" absolute top-[-6%] right-0">
-                                <div className="w-[5vmax] aspect-[40/57] relative">
+                            <div className=" absolute top-[-6%] right-0 ">
+                                <div className="w-[5vmax] aspect-[40/57] relative flex justify-center items-center">
                                     <Image
                                         src="/image/md_fire_icon.svg"
                                         alt="main logo"
                                         layout="fill"
                                         objectFit="cover"
                                     />
+                                    <p className="text-white text-[5vmin] z-30 ">{totalGems}</p>
                                 </div>
                             </div>
                         </div>
@@ -288,10 +292,10 @@ export default function ClaimTimer() {
                                     />
                                 </div>
                             </div>
-                            <Puzzle />
+                            <Puzzle setTotalGems={setTotalGems} />
                         </div>
                     </div>
-                    <div className=" w-full  flex justify-center items-center bg-gradient-to-r from-[#FD7601] to-[#F39A4D] ">
+                    <div className=" w-full h-[10%] flex justify-center items-center bg-gradient-to-r from-[#FD7601] to-[#F39A4D] ">
                         <div className=" gap-[2%] w-full flex justify-evenly items-center">
                             <p className="leading-3 text-[2vmax] text-white sm:text-[1.8vmin] font-bold text-stroke-mini text-shadow-sm -skew-x-12 -rotate-3 ">
                                 Your <br />Magic Pick
@@ -305,7 +309,7 @@ export default function ClaimTimer() {
                                 />
                             </div>
                             <p className="leading-3 text-[2vmax] text-white sm:text-[3vmin] font-bold text-stroke-mini text-shadow-sm -skew-x-12 -rotate-3 ">
-                                {tickets}
+                                {hammerCount}
                             </p>
                         </div>
                     </div>

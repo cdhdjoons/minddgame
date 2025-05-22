@@ -27,7 +27,11 @@ export default function GameCanvas({ gameState, setGameState, resetGame }) {
 
     // 보석 이미지 경로 (size에 따라 다름)
     const getGemImageSrc = (size) => {
-        return size === 1 ? "/image/gem_small.png" : "/image/gem_large.png";
+        if (size === 1) return "/image/gem_small.svg"; // 1x1
+        if (size === 4) return "/image/gem_large.svg"; // 2x2
+        if (size === 3) return "/image/gem_1x3.svg"; // 1x3
+        if (size === 2) return "/image/gem_2x1.svg"; // 2x1
+        return "/image/gem_small.png"; // 기본값
     };
 
     // 이미지 미리 로드
@@ -47,8 +51,12 @@ export default function GameCanvas({ gameState, setGameState, resetGame }) {
         }
         // 보석 이미지 추가
         imageSources.push(...blockImageSources);
-        imageSources.push("/image/gem_small.png");
-        imageSources.push("/image/gem_large.png");
+        imageSources.push(
+            "/image/gem_small.svg",
+            "/image/gem_large.svg",
+            "/image/gem_1x3.svg",
+            "/image/gem_2x1.svg"
+        );
 
         const loadedImages = {};
         let loadedCount = 0;
@@ -62,8 +70,10 @@ export default function GameCanvas({ gameState, setGameState, resetGame }) {
                 if (loadedCount === imageSources.length) {
                     setBlockImages(loadedImages);
                     setGemImages({
-                        "/image/gem_small.png": loadedImages["/image/gem_small.png"],
-                        "/image/gem_large.png": loadedImages["/image/gem_large.png"],
+                        "/image/gem_small.svg": loadedImages["/image/gem_small.svg"],
+                        "/image/gem_large.svg": loadedImages["/image/gem_large.svg"],
+                        "/image/gem_1x3.svg": loadedImages["/image/gem_1x3.svg"],
+                        "/image/gem_2x1.svg": loadedImages["/image/gem_2x1.svg"],
                     });
                     setImagesLoaded(true); // 모든 이미지 로드 완료
                 }
@@ -74,8 +84,10 @@ export default function GameCanvas({ gameState, setGameState, resetGame }) {
                 if (loadedCount === imageSources.length) {
                     setBlockImages(loadedImages);
                     setGemImages({
-                        "/image/gem_small.png": null,
-                        "/image/gem_large.png": null,
+                        "/image/gem_small.svg": null,
+                        "/image/gem_large.svg": null,
+                        "/image/gem_1x3.svg": null,
+                        "/image/gem_2x1.svg": null,
                     });
                     setImagesLoaded(true); // 실패해도 상태 업데이트
                 }
@@ -88,14 +100,26 @@ export default function GameCanvas({ gameState, setGameState, resetGame }) {
         const { row, col, size } = gem;
         if (size === 1) {
             return grid[row]?.[col]?.state === "broken";
-        } else {
+        } else if (size === 4) {
             return (
                 grid[row]?.[col]?.state === "broken" &&
                 grid[row]?.[col + 1]?.state === "broken" &&
                 grid[row + 1]?.[col]?.state === "broken" &&
                 grid[row + 1]?.[col + 1]?.state === "broken"
             );
+        } else if (size === 3) { // 1x3
+            return (
+                grid[row]?.[col]?.state === "broken" &&
+                grid[row + 1]?.[col]?.state === "broken" &&
+                grid[row + 2]?.[col]?.state === "broken"
+            );
+        } else if (size === 2) { // 2x1
+            return (
+                grid[row]?.[col]?.state === "broken" &&
+                grid[row]?.[col + 1]?.state === "broken"
+            );
         }
+        return false;
     };
 
     // 보석이 차지하는 영역에 클릭이 포함되는지 확인
@@ -103,14 +127,27 @@ export default function GameCanvas({ gameState, setGameState, resetGame }) {
         const { row: gemRow, col: gemCol, size } = gem;
         if (size === 1) {
             return row === gemRow && col === gemCol;
-        } else {
+        } else if (size === 4) {
             return (
                 row >= gemRow &&
                 row <= gemRow + 1 &&
                 col >= gemCol &&
                 col <= gemCol + 1
             );
+        } else if (size === 3) { // 1x3
+            return (
+                row >= gemRow &&
+                row <= gemRow + 2 &&
+                col === gemCol
+            );
+        } else if (size === 2) { // 2x1
+            return (
+                row === gemRow &&
+                col >= gemCol &&
+                col <= gemCol + 1
+            );
         }
+        return false;
     };
 
     // 캔버스 그리기 함수
@@ -147,8 +184,20 @@ export default function GameCanvas({ gameState, setGameState, resetGame }) {
 
             const x = col * tileSize;
             const y = row * tileSize;
-            const gemWidth = size === 1 ? tileSize : 2 * tileSize;
-            const gemHeight = size === 1 ? tileSize : 2 * tileSize;
+            let gemWidth, gemHeight;
+            if (size === 1) {
+                gemWidth = tileSize;
+                gemHeight = tileSize;
+            } else if (size === 4) {
+                gemWidth = 2 * tileSize;
+                gemHeight = 2 * tileSize;
+            } else if (size === 3) { // 1x3
+                gemWidth = tileSize;
+                gemHeight = 3 * tileSize;
+            } else if (size === 2) { // 2x1
+                gemWidth = 2 * tileSize;
+                gemHeight = tileSize;
+            }
 
             const imageSrc = getGemImageSrc(size);
             const gemImage = gemImages[imageSrc];

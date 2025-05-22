@@ -3,7 +3,8 @@ import "./globals.css";
 import ClientOnlyWrapper from "./components/clientOnlyWarpper";
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Lilita_One  } from '@next/font/google';
+import { Lilita_One } from '@next/font/google';
+import { HammerProvider } from "./context/hammerContext";
 
 // Lilita One 폰트 설정
 const lilitaOne = Lilita_One({
@@ -22,12 +23,14 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`bg-black flex min-h-dvh justify-center m-0 p-0 ${lilitaOne.variable}`} >
         <div className=" font-lilita w-full h-screen max-w-[500px]  pb-[54px] relative flex flex-col justify-between overflow-scroll bg-no-repeat bg-cover"
-        style={{ backgroundImage: `url(/image/md_bg.png)` }}
-          >
+          style={{ backgroundImage: `url(/image/md_bg.png)` }}
+        >
+          <HammerProvider>
             {children}
-          <Analytics />
-          <SpeedInsights />
-          <ClientOnlyWrapper />
+            <Analytics />
+            <SpeedInsights />
+            <ClientOnlyWrapper />
+          </HammerProvider>
         </div>
       </body>
     </html>

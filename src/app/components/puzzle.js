@@ -1,10 +1,10 @@
 'use client'
-// /app/page.js
+
 import { useState, useEffect } from "react";
 import GameCanvas from "./canvas";
 import { AnimatePresence, motion } from 'framer-motion';
 
-export default function Puzzle() {
+export default function Puzzle({ setTotalGems }) {
   const [gameState, setGameState] = useState({
     grid: [],
     gems: [],
@@ -21,7 +21,7 @@ export default function Puzzle() {
         Array(GRID_SIZE)
           .fill()
           .map(() => ({
-            depth: 9, // 1~10 사이의 랜덤 깊이
+            depth: 10, // 1~10 사이의 랜덤 깊이
             state: "intact",
           }))
       );
@@ -31,32 +31,53 @@ export default function Puzzle() {
     const occupied = new Set();
 
     const addGem = (row, col, size) => {
-      if (size === 4) {
+      let positions = [];
+      if (size === 1) {
+        positions = [`${row},${col}`];
+      } else if (size === 4) { // 2x2
         if (row + 1 >= GRID_SIZE || col + 1 >= GRID_SIZE) return false;
-        const positions = [
+        positions = [
           `${row},${col}`,
           `${row},${col + 1}`,
           `${row + 1},${col}`,
           `${row + 1},${col + 1}`,
         ];
-        if (positions.some((pos) => occupied.has(pos))) return false;
-        positions.forEach((pos) => occupied.add(pos));
-      } else {
-        const pos = `${row},${col}`;
-        if (occupied.has(pos)) return false;
-        occupied.add(pos);
+      } else if (size === 3) { // 1x3
+        if (row + 2 >= GRID_SIZE) return false;
+        positions = [
+          `${row},${col}`,
+          `${row + 1},${col}`,
+          `${row + 2},${col}`,
+        ];
+      } else if (size === 2) { // 2x1
+        if (col + 1 >= GRID_SIZE) return false;
+        positions = [
+          `${row},${col}`,
+          `${row},${col + 1}`,
+        ];
       }
+
+      if (positions.some((pos) => occupied.has(pos))) return false;
+      positions.forEach((pos) => occupied.add(pos));
       initialGems.push({ row, col, size, collected: false });
       return true;
     };
 
     let gemsAdded = 0;
-    while (gemsAdded < 3) {
+    const targetGems = Math.floor(Math.random() * (4 - 2 + 1)) + 2; // 2~4 사이 랜덤 개수
+    while (gemsAdded < targetGems) {
       const row = Math.floor(Math.random() * GRID_SIZE);
       const col = Math.floor(Math.random() * GRID_SIZE);
-      const size = Math.random() > 0.5 ? 4 : 1;
+      const sizeRandom = Math.random();
+      let size;
+      if (sizeRandom < 0.25) size = 1; // 1x1 (25%)
+      else if (sizeRandom < 0.5) size = 4; // 2x2 (25%)
+      else if (sizeRandom < 0.75) size = 3; // 1x3 (25%)
+      else size = 2; // 2x1 (25%)
+
       if (addGem(row, col, size)) {
         gemsAdded++;
+        setTotalGems(targetGems);
       }
     }
 

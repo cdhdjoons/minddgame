@@ -19,7 +19,7 @@ export default function DailyTask() {
     //invite 버튼 5번 클릭 시 포인트 지급 및 비활성화 관리
     const [inviteCount, setInviteCount] = useState(0);
 
-    const manifestUrl = "https://sagugame.vercel.app/tonconnect-manifest.json";
+    const manifestUrl = "https://minddgame.vercel.app/tonconnect-manifest.json";
 
 
     useEffect(() => {
