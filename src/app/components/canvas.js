@@ -2,6 +2,8 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import { useHammer } from "../context/hammerContext";
+import { useGemContext } from "../context/gemContext";
 
 export default function GameCanvas({ gameState, setGameState, resetGame }) {
     const canvasRef = useRef(null);
@@ -10,6 +12,8 @@ export default function GameCanvas({ gameState, setGameState, resetGame }) {
     const [blockImages, setBlockImages] = useState({}); // depth 구간별 이미지 저장
     const [gemImages, setGemImages] = useState({}); // 보석 이미지 저장
     const [imagesLoaded, setImagesLoaded] = useState(false); // 이미지 로드 상태
+    const { hammerCount, decreaseHammer } = useHammer();
+    const { updateGemCount } = useGemContext(); // GemProvider에서 updateGemCount 가져오기
 
     // depth에 따른 이미지 경로 매핑
     const getBlockImageSrc = (depth) => {
@@ -309,6 +313,7 @@ export default function GameCanvas({ gameState, setGameState, resetGame }) {
                 // 1. 블록이 있는 경우: 블록 깊이 감소
                 if (newGrid[row]?.[col]?.state === "intact") {
                     newGrid[row][col].depth -= 1;
+                    decreaseHammer();//hammer 갯수 감소
 
                     if (newGrid[row][col].depth === 0) {
                         newGrid[row][col].state = "broken";
@@ -322,7 +327,7 @@ export default function GameCanvas({ gameState, setGameState, resetGame }) {
                     if (gemIndex !== -1) {
                         newGems[gemIndex].collected = true;
                         const newCollectedGems = gameState.collectedGems + 1;
-
+                        const gemType = newGems[gemIndex].type;
                         // 모든 보석이 수집되었는지 확인
                         if (newCollectedGems === gameState.gems.length) {
                             setTimeout(() => {
@@ -334,6 +339,7 @@ export default function GameCanvas({ gameState, setGameState, resetGame }) {
                             ...prev,
                             collectedGems: newCollectedGems,
                         }));
+                        updateGemCount(gemType); // GemProvider의 updateGemCount 호출
                     }
                 }
 

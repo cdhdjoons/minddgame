@@ -59,7 +59,25 @@ export default function Puzzle({ setTotalGems }) {
 
       if (positions.some((pos) => occupied.has(pos))) return false;
       positions.forEach((pos) => occupied.add(pos));
-      initialGems.push({ row, col, size, collected: false });
+      // size에 따라 고정된 타입 매핑
+      let type;
+      switch (size) {
+        case 1:
+          type = "ruby";
+          break;
+        case 2:
+          type = "sapphire";
+          break;
+        case 3:
+          type = "emerald";
+          break;
+        case 4:
+          type = "diamond";
+          break;
+        default:
+          type = "ruby"; // 기본값 (필요 시 조정)
+      }
+      initialGems.push({ row, col, size, collected: false, type });
       return true;
     };
 
@@ -96,23 +114,6 @@ export default function Puzzle({ setTotalGems }) {
   // 게임 리셋 함수
   const resetGame = () => {
     setGameState(initializeGame());
-  };
-
-  // "치대" 버튼 기능
-  const handleChisel = () => {
-    const newGrid = [...gameState.grid.map((row) => [...row])];
-    for (let row = 0; row < GRID_SIZE; row++) {
-      for (let col = 0; col < GRID_SIZE; col++) {
-        if (newGrid[row]?.[col]?.state === "intact") {
-          newGrid[row][col].depth -= 1;
-          if (newGrid[row][col].depth === 0) {
-            newGrid[row][col].state = "broken";
-          }
-          setGameState((prev) => ({ ...prev, grid: newGrid }));
-          return;
-        }
-      }
-    }
   };
 
   return (

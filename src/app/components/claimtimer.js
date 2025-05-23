@@ -8,6 +8,7 @@ import { ArrowUpCircle } from "lucide-react";
 import questionDb from "../db/questionDb";
 import Puzzle from "./puzzle";
 import { useHammer } from "../context/hammerContext";
+import { useGemContext } from "../context/gemContext";
 
 export default function ClaimTimer() {
     const TIMER_DURATION = 21600; // 6 hours in seconds
@@ -22,6 +23,9 @@ export default function ClaimTimer() {
     const [teleId, setTeleId] = useState('unknown');
     const [totalGems, setTotalGems] = useState(0);
     const { hammerCount } = useHammer();
+    const { collectedGemsByType } = useGemContext(); // GemProvider에서 collectedGemsByType 가져오기
+    
+
 
     useEffect(() => {
         const checkTelegramSDK = () => {
@@ -190,7 +194,7 @@ export default function ClaimTimer() {
                                                 objectFit="cover"
                                             />
                                         </div>
-                                        <p className="text-[#93FF25] text-stroke-mini text-[3vmin]">1</p>
+                                        <p className="text-[#93FF25] text-stroke-mini text-[3vmin]">{collectedGemsByType.ruby}</p>
                                     </div>
                                     <div className="w-full flex justify-start items-center gap-2">
                                         <div className="w-[6.5vmin] sm:w-[3vmin] aspect-[1/1] relative  ">
@@ -201,7 +205,7 @@ export default function ClaimTimer() {
                                                 objectFit="cover"
                                             />
                                         </div>
-                                        <p className="text-[#93FF25] text-stroke-mini text-[3vmin]">2</p>
+                                        <p className="text-[#93FF25] text-stroke-mini text-[3vmin]">{collectedGemsByType.diamond}</p>
                                     </div>
                                     <div className="w-full flex justify-start items-center gap-2">
                                         <div className="w-[6.5vmin] sm:w-[3vmin] aspect-[1/1] relative  ">
@@ -212,7 +216,7 @@ export default function ClaimTimer() {
                                                 objectFit="cover"
                                             />
                                         </div>
-                                        <p className="text-[#93FF25] text-stroke-mini text-[3vmin]">3</p>
+                                        <p className="text-[#93FF25] text-stroke-mini text-[3vmin]">{collectedGemsByType.emerald}</p>
                                     </div>
                                     <div className="w-full flex justify-start items-center gap-2">
                                         <div className="w-[6.5vmin] sm:w-[3vmin] aspect-[1/1] relative  ">
@@ -223,7 +227,7 @@ export default function ClaimTimer() {
                                                 objectFit="cover"
                                             />
                                         </div>
-                                        <p className="text-[#93FF25] text-stroke-mini text-[3vmin]">4</p>
+                                        <p className="text-[#93FF25] text-stroke-mini text-[3vmin]">{collectedGemsByType.sapphire}</p>
                                     </div>
                                 </div>
                             </div>

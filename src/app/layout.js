@@ -5,6 +5,7 @@ import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Lilita_One } from '@next/font/google';
 import { HammerProvider } from "./context/hammerContext";
+import { GemProvider } from "./context/gemContext";
 
 // Lilita One 폰트 설정
 const lilitaOne = Lilita_One({
@@ -14,8 +15,8 @@ const lilitaOne = Lilita_One({
 });
 
 export const metadata = {
-  title: "Mind D",
-  description: "MindD_WepApp",
+  title: "MineD",
+  description: "MineD_WepApp",
 };
 
 export default function RootLayout({ children }) {
@@ -25,12 +26,14 @@ export default function RootLayout({ children }) {
         <div className=" font-lilita w-full h-screen max-w-[500px]  pb-[54px] relative flex flex-col justify-between overflow-scroll bg-no-repeat bg-cover"
           style={{ backgroundImage: `url(/image/md_bg.png)` }}
         >
-          <HammerProvider>
-            {children}
-            <Analytics />
-            <SpeedInsights />
-            <ClientOnlyWrapper />
-          </HammerProvider>
+          <GemProvider>
+            <HammerProvider>
+              {children}
+              <Analytics />
+              <SpeedInsights />
+              <ClientOnlyWrapper />
+            </HammerProvider>
+          </GemProvider>
         </div>
       </body>
     </html>
