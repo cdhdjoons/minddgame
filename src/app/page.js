@@ -25,6 +25,7 @@ export default function Home() {
   return (
     <div className=" w-full h-full">
       <div className=" w-full h-full max-w-[500px] relative flex flex-col " >
+        <Intro />
         <AnimatePresence mode="wait">
           <motion.div className="w-full flex justify-between relative "
             initial={{ opacity: 0 }}
@@ -42,7 +43,7 @@ export default function Home() {
                 />
               </div>
               <p className="absolute text-[10vmin] sm:text-[5vmin] top-[5%] left-[5%] text-[#FFFEC4] text-shadow-lg text-stroke -rotate-3 tracking-tighter-3 -skew-x-12 ">
-                MIND.D
+                MINE.D
               </p>
               <div className="w-full flex justify-end items-center px-[5%] absolute bottom-0 ">
                 <p className=" text-[5vmin] sm:text-[2vmin] text-[#FFFEC4] text-shadow-lg text-stroke -rotate-3 tracking-tighter-3 -skew-x-12 ">
@@ -62,7 +63,7 @@ export default function Home() {
           </motion.div>
         </AnimatePresence>
         <ClaimTimer />
-        
+
       </div>
     </div>
   );

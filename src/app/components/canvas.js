@@ -312,6 +312,9 @@ export default function GameCanvas({ gameState, setGameState, resetGame }) {
 
                 // 1. 블록이 있는 경우: 블록 깊이 감소
                 if (newGrid[row]?.[col]?.state === "intact") {
+                    // if(hammerCount < 1) {
+                    //     return 
+                    // }
                     newGrid[row][col].depth -= 1;
                     decreaseHammer();//hammer 갯수 감소
 

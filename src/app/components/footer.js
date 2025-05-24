@@ -44,7 +44,7 @@ export default function Footer() {
 
     return (
         <AnimatePresence mode="wait">
-            <motion.div className="  w-full max-w-[500px]flex justify-center items-center fixed bottom-0 z-[999] bg-footerBg  "
+            <motion.div className="  w-full max-w-[500px]flex justify-center items-center fixed bottom-0 z-[998] bg-footerBg  "
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -54,11 +54,23 @@ export default function Footer() {
                     <Link href="/" >
                         <div className=" w-[15vmin] sm:w-[8vmin] aspect-[122/122] relative active:scale-90 transition-transform duration-200 ">
                             <Image
-                                src="/image/md_home.png"
+                                src="/image/md_home.svg"
                                 alt="meatIcon"
                                 fill
                                 style={{ objectFit: "cover" }}
                                 priority
+                            />
+                        </div>
+                    </Link>
+                    <Link href="/invite">
+                        <div className="w-[15vmin] sm:w-[8vmin] aspect-[122/122] relative active:scale-90 transition-transform duration-200">
+                            <Image
+                                src="/image/md_invite.png"
+                                alt="meatIcon"
+                                fill
+                                style={{ objectFit: "cover" }}
+                                priority
+
                             />
                         </div>
                     </Link>
@@ -74,22 +86,10 @@ export default function Footer() {
                             />
                         </div>
                     </Link>
-                    {/* <Link href="/balance">
-                        <div className="w-[15vmin] sm:w-[8vmin] aspect-[98/101] relative active:scale-90 transition-transform duration-200">
-                            <Image
-                                src="/image/sagu_game.png"
-                                alt="meatIcon"
-                                fill
-                                style={{ objectFit: "cover" }}
-                                priority
-
-                            />
-                        </div>
-                    </Link> */}
-                    <Link href="/invite">
+                    <Link href="/leaderboard">
                         <div className="w-[15vmin] sm:w-[8vmin] aspect-[122/122] relative active:scale-90 transition-transform duration-200">
                             <Image
-                                src="/image/md_invite.png"
+                                src="/image/md_rank.png"
                                 alt="meatIcon"
                                 fill
                                 style={{ objectFit: "cover" }}
@@ -98,10 +98,10 @@ export default function Footer() {
                             />
                         </div>
                     </Link>
-                    <Link href="/leaderboard">
-                        <div className="w-[15vmin] sm:w-[8vmin] aspect-[122/122] relative active:scale-90 transition-transform duration-200">
+                    <Link href="/balance">
+                        <div className="w-[15vmin] sm:w-[8vmin] aspect-[98/101] relative active:scale-90 transition-transform duration-200">
                             <Image
-                                src="/image/md_rank.png"
+                                src="/image/md_boost.svg"
                                 alt="meatIcon"
                                 fill
                                 style={{ objectFit: "cover" }}

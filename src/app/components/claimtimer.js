@@ -4,28 +4,19 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowUpCircle } from "lucide-react";
-import questionDb from "../db/questionDb";
 import Puzzle from "./puzzle";
 import { useHammer } from "../context/hammerContext";
 import { useGemContext } from "../context/gemContext";
 
 export default function ClaimTimer() {
-    const TIMER_DURATION = 21600; // 6 hours in seconds
-
-    // const [time, setTime] = useState(TIMER_DURATION); // 10초 타이머
     const [onClaim, setOnClaim] = useState(false);
     const [n2o, setN2O] = useState(0);
-    const timerRef = useRef(null);
-    const hasFinished = useRef(false);
-    const [tickets, setTickets] = useState(0);
-    // const [week, setWeek] = useState(0);
     const [teleId, setTeleId] = useState('unknown');
+    const [currentRank, setCurrentRank] = useState('bronze');
     const [totalGems, setTotalGems] = useState(0);
     const { hammerCount } = useHammer();
     const { collectedGemsByType } = useGemContext(); // GemProvider에서 collectedGemsByType 가져오기
-    
-
+    const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000; // 1주일 (밀리초)
 
     useEffect(() => {
         const checkTelegramSDK = () => {
@@ -49,108 +40,22 @@ export default function ClaimTimer() {
     }, []);
 
     useEffect(() => {
-        // localStorage에서 시작 시간 불러오기
-        const storedStartTime = localStorage.getItem("timerStartTime");
-        const lastCompletionTime = localStorage.getItem("lastCompletionTime");//timer 만료 후 체크위한 값
+        const storedRank = localStorage.getItem('currentRank');
+        const storedTimestamp = localStorage.getItem('rankTimestamp');
 
+        if (storedRank && storedTimestamp) {
+            const timestamp = parseInt(storedTimestamp, 10);
+            const currentTime = new Date().getTime();
 
-        if (storedStartTime) {
-            const elapsedTime = Math.floor((Date.now() - Number(storedStartTime)) / 1000);
-            const remainingTime = Math.max(TIMER_DURATION - elapsedTime, 0);
-
-            if (remainingTime > 0) {
-                hasFinished.current = false;
-                setTime(remainingTime);
-                setOnClaim(false);
-                startInterval(remainingTime);
-            } else {
-                // Timer has finished while away
-                if (!lastCompletionTime || lastCompletionTime !== storedStartTime) {
-                    // Only increment N2O if we haven't recorded this completion
-                    handleN2O();
-                    localStorage.setItem("lastCompletionTime", storedStartTime);
-                }
-                localStorage.removeItem("timerStartTime");
-                setOnClaim(true);
+            // 1주일이 지났는지 확인
+            if (currentTime - timestamp < ONE_WEEK_MS) {
+                setCurrentRank(storedRank);
             }
         }
 
-        // 초기 n2o 값 불러오기
-        const storedN2O = localStorage.getItem("n2o");
-        if (storedN2O) {
-            setN2O(Number(storedN2O));
-        }
-
-
-        // 초기 티켓 값 불러오기
-        const storedTickets = localStorage.getItem("tickets");
-        if (storedTickets !== null) {
-            setTickets(Number(storedTickets));
-        }
-        //몇 주 차 인지 값 불러오기
-        // const storedWeek = localStorage.getItem("week");
-        // if (storedWeek !== null) {
-        //     setWeek(Number(storedWeek));
-        // }
-
-
-        // Cleanup interval on unmount
-        return () => {
-            if (timerRef.current) {
-                clearInterval(timerRef.current);
-            }
-        };
+        const storedN20 = localStorage.getItem('n2o');
+        setN2O(Number(storedN20));
     }, []);
-
-    const startInterval = () => {
-        if (timerRef.current) {
-            clearInterval(timerRef.current);
-        }
-
-        timerRef.current = setInterval(() => {
-            setTime((prev) => {
-                if (prev <= 1) {
-                    clearInterval(timerRef.current);
-                    setOnClaim(true);
-                    const currentStartTime = localStorage.getItem("timerStartTime");
-                    localStorage.setItem("lastCompletionTime", currentStartTime);
-                    localStorage.removeItem("timerStartTime");
-                    if (!hasFinished.current) {
-                        handleN2O();
-                        hasFinished.current = true;
-                    }
-                    return 0; // Return 0 instead of 10
-                }
-                return prev - 1;
-            });
-        }, 1000);
-    };
-
-    const startTimer = () => {
-        setOnClaim(false);
-        setTime(TIMER_DURATION);
-        hasFinished.current = false;
-        localStorage.setItem("timerStartTime", Date.now().toString());
-        startInterval();
-    };
-
-    const handleN2O = () => {
-        const currentN2O = localStorage.getItem("n2o");
-        const newN2O = (Number(currentN2O) || 0) + 2000; // 🔥 기존 값에 1000 더함
-        localStorage.setItem("n2o", newN2O); // 🔥 업데이트된 값 저장
-        setN2O(newN2O); // 🔥 상태 업데이트
-
-    };
-
-
-
-    const formatTime = (seconds) => {
-        const hours = Math.floor(seconds / 3600);
-        const minutes = Math.floor((seconds % 3600) / 60);
-        const remainingSeconds = seconds % 60;
-
-        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-    };
 
 
     // 프로그레스 바 너비 계산 (0% ~ 100%)
@@ -171,7 +76,7 @@ export default function ClaimTimer() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
             >
-                <div className="w-full h-[10%] flex justify-center items-center relative ">
+                <div className="w-full h-[17%] flex justify-center items-center relative  ">
                     <div className="w-[90%] h-full sm:w-[90%] relative flex flex-col justify-between items-center bg-[#FD7601] rounded-sm border-2 border-black skew-x-[-5deg]">
                         <div className="w-full h-full flex justify-center py-[1%] gap-[5%] items-center skew-x-[5deg]">
                             <div className="w-[10vmin] sm:w-[6vmin] aspect-[66/69.66] relative  ">
@@ -235,7 +140,7 @@ export default function ClaimTimer() {
                         <div className="w-full flex justify-between items-center bg-[#FF953A] pr-[1%]">
                             <div className="flex flex-col w-[70%] bg-[#FFC78E] pb-[1%]">
                                 <div className="flex justify-between px-[2%] w-full">
-                                    <p className="  text-white text-[4vmin] sm:text-[2vmin] font-bold text-stroke-mini text-shadow-sm">Bronze</p>
+                                    <p className="  text-white text-[4vmin] sm:text-[2vmin] font-bold text-stroke-mini text-shadow-sm capitalize">{currentRank}</p>
                                     <p className="  text-white text-[4vmin] sm:text-[2vmin] font-bold text-stroke-mini text-shadow-sm">8/20</p>
                                 </div>
                                 <div className="flex justify-start items-center px-[2%] w-full relative">
@@ -268,13 +173,30 @@ export default function ClaimTimer() {
                         </div>
                     </div>
                 </div>
-                <div className="w-full h-[80%] flex flex-col justify-center items-center relative ">
+                <div className="w-full h-[8%] py-[2%] px-[2%] flex justify-between items-center relative ">
+                    <Link href="/daily" className="w-[30%] h-full bg-[#FD7601] border-[1px] border-black skew-x-[-10deg] rounded-sm flex justify-center items-center">
+                        <div className=" w-full h-[85%] text-center text-white font-semibold bg-[#F49D52] flex justify-center items-center text-stroke-mini">
+                            <span className="text-[5vmin] tracking-tighter skew-x-[10deg]">MISSION</span>
+                        </div>
+                    </Link>
+                    <Link href="/leaderboard" className="w-[30%] h-full bg-[#FD7601] border-[1px] border-black skew-x-[-10deg] rounded-sm flex justify-center items-center">
+                        <div className=" w-full h-[85%] text-center text-white font-semibold bg-[#F49D52] flex justify-center items-center text-stroke-mini">
+                            <span className="text-[5vmin] tracking-tighter skew-x-[10deg]">RANK</span>
+                        </div>
+                    </Link>
+                    <Link href="/balance" className="w-[30%] h-full bg-[#FD7601] border-[1px] border-black skew-x-[-10deg] rounded-sm flex justify-center items-center">
+                        <div className=" w-full h-[85%] text-center text-white font-semibold bg-[#F49D52] flex justify-center items-center text-stroke-mini">
+                            <span className="text-[5vmin] tracking-tighter skew-x-[10deg]">BOOST</span>
+                        </div>
+                    </Link>
+                </div>
+                <div className="w-full h-[70%] flex flex-col justify-center items-center relative ">
                     <div className={` h-full w-full flex flex-col justify-between relative`}>
                         <div className="flex justify-start gap-[47%] px-[5%] w-full bg-[#FFDE32] border-b-[4px] border-[#FFA800]">
                             <p className="  text-white text-[4vmin] sm:text-[2vmin] font-bold text-stroke-mini text-shadow-sm">STAGE 001</p>
                             <p className="  text-white text-[4vmin] sm:text-[2vmin] font-bold text-stroke-mini text-shadow-sm">HIDDEN GEM</p>
                             <div className=" absolute top-[-6%] right-0 ">
-                                <div className="w-[5vmax] aspect-[40/57] relative flex justify-center items-center">
+                                <div className="w-[5vmax] aspect-[40/57] relative flex justify-center items-center z-50">
                                     <Image
                                         src="/image/md_fire_icon.svg"
                                         alt="main logo"
