@@ -10,19 +10,25 @@ import questionDb from "../db/questionDb";
 import { CheckCircle } from 'lucide-react';
 
 export default function Balance() {
+  const [n2o, setN2O] = useState(0);
   const [pop, setPop] = useState(false);
   const [okPop, setOkPop] = useState(0);
-  const [currentRank, setCurrentRank] = useState('bronze');
+  const [currentRank, setCurrentRank] = useState('no rank');
   const [isGoldDisabled, setIsGoldDisabled] = useState(false);
   const [isSilverDisabled, setIsSilverDisabled] = useState(false);
-  const [isBronzeDisabled, setIsBronzeDisabled] = useState(true);
+  const [isBronzeDisabled, setIsBronzeDisabled] = useState(false);
 
   const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000; // 1주일 (밀리초)
 
   // 페이지 로드 시 localStorage에서 상태 확인
   useEffect(() => {
+    const storedPoint = localStorage.getItem('n2o');
     const storedRank = localStorage.getItem('currentRank');
     const storedTimestamp = localStorage.getItem('rankTimestamp');
+
+    if (storedPoint) {
+      setN2O(storedPoint);
+    }
 
     if (storedRank && storedTimestamp) {
       const timestamp = parseInt(storedTimestamp, 10);
@@ -40,25 +46,35 @@ export default function Balance() {
           setIsGoldDisabled(false);
           setIsSilverDisabled(true);
           setIsBronzeDisabled(true);
-        } else {
+        } else if (storedRank === 'bronze') {
           setIsGoldDisabled(false);
           setIsSilverDisabled(false);
           setIsBronzeDisabled(true);
+        } else {
+          setIsGoldDisabled(false);
+          setIsSilverDisabled(false);
+          setIsBronzeDisabled(false);
         }
       } else {
-        // 1주일 경과 시 Bronze로 리셋
-        setCurrentRank('bronze');
+        // 1주일 경과 시 no rank로 리셋
+        setCurrentRank('no rank');
         setIsGoldDisabled(false);
         setIsSilverDisabled(false);
-        setIsBronzeDisabled(true);
-        localStorage.setItem('currentRank', 'bronze');
+        setIsBronzeDisabled(false);
+        localStorage.setItem('currentRank', 'no rank');
         localStorage.setItem('rankTimestamp', currentTime.toString());
       }
     }
   }, []);
 
   //랭크 카드 핸들러
-  const handleRankChange = (rank) => {
+  const handleRankChange = (rank, price) => {
+    if (n2o < price) {
+      setPop(true);
+      setTimeout(() => setPop(false), 1500); // 1.5초 후 복사 메시지 초기화
+      return
+    }
+
     setCurrentRank(rank);
     const currentTime = new Date().getTime();
     localStorage.setItem('currentRank', rank);
@@ -73,10 +89,14 @@ export default function Balance() {
       setIsGoldDisabled(false);
       setIsSilverDisabled(true);
       setIsBronzeDisabled(true);
-    } else {
+    } else if (rank === 'bronze') {
       setIsGoldDisabled(false);
       setIsSilverDisabled(false);
       setIsBronzeDisabled(true);
+    } else {
+      setIsGoldDisabled(false);
+      setIsSilverDisabled(false);
+      setIsBronzeDisabled(false);
     }
   };
 
@@ -148,7 +168,7 @@ export default function Balance() {
                   alt="main logo"
                   layout="fill"
                   objectFit="cover"
-                  onClick={() => handleRankChange('gold')}
+                  onClick={() => handleRankChange('gold', 6000)}
                 />}
               </div>
               <div className=" w-full aspect-[582/132] relative active:scale-90 transition-transform duration-100">
@@ -162,6 +182,7 @@ export default function Balance() {
                   alt="main logo"
                   layout="fill"
                   objectFit="contain"
+                  onClick={() => handleRankChange('silver', 3000)}
                 />}
               </div>
               <div className=" w-full aspect-[593/132] relative active:scale-90 transition-transform duration-100">
@@ -175,6 +196,7 @@ export default function Balance() {
                   alt="main logo"
                   layout="fill"
                   objectFit="contain"
+                  onClick={() => handleRankChange('bronze', 1200)}
                 />}
               </div>
             </div>

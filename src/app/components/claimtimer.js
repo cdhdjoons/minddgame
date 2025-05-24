@@ -12,7 +12,7 @@ export default function ClaimTimer() {
     const [onClaim, setOnClaim] = useState(false);
     const [n2o, setN2O] = useState(0);
     const [teleId, setTeleId] = useState('unknown');
-    const [currentRank, setCurrentRank] = useState('bronze');
+    const [currentRank, setCurrentRank] = useState('no rank');
     const [totalGems, setTotalGems] = useState(0);
     const { hammerCount } = useHammer();
     const { collectedGemsByType } = useGemContext(); // GemProvider에서 collectedGemsByType 가져오기
