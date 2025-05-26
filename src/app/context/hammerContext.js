@@ -39,12 +39,13 @@ export function HammerProvider({ children }) {
     // 클라이언트에서만 localStorage 읽기
     useEffect(() => {
         const savedCount = localStorage.getItem("hammerCount");
+        const savedRank = localStorage.getItem("currentRank");
+
         if (savedCount) {
             const count = parseFloat(savedCount);
             const maxCount = getMaxCount(rank);
             setHammerCount(Math.min(count, maxCount)); // 최대치 초과 방지
         }
-        const savedRank = localStorage.getItem("currentRank");
         if (savedRank && ["gold", "silver", "bronze"].includes(savedRank)) {
             setRank(savedRank);
         } else {
@@ -52,7 +53,7 @@ export function HammerProvider({ children }) {
         }
     }, []);
 
-
+    console.log(rank);
     // 1초마다 hammerCount 증가
     useEffect(() => {
         const interval = setInterval(() => {
@@ -71,7 +72,21 @@ export function HammerProvider({ children }) {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [hammerCount, rank]);
+    }, [rank]);
+
+    // rank 변경 함수
+    const updateRank = (newRank) => {
+        if (["gold", "silver", "bronze", "no rank"].includes(newRank)) {
+            setRank(newRank);
+            // hammerCount가 새로운 rank의 maxCount를 초과하지 않도록 조정
+            setHammerCount((prev) => {
+                const maxCount = getMaxCount(newRank);
+                const newCount = Math.min(prev, maxCount);
+                localStorage.setItem("hammerCount", newCount.toString());
+                return newCount;
+            });
+        }
+    };
 
 
     // hammerCount 감소 함수
@@ -89,7 +104,7 @@ export function HammerProvider({ children }) {
 
 
     return (
-        <HammerContext.Provider value={{ hammerCount, decreaseHammer, rank }}>
+        <HammerContext.Provider value={{ hammerCount, decreaseHammer, rank, updateRank }}>
             {children}
         </HammerContext.Provider>
     );

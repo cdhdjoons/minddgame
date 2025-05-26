@@ -8,6 +8,7 @@ import { TICKETS_UPDATE_EVENT } from '../components/clientOnlyWarpper';
 import Alert from '@mui/material/Alert';
 import questionDb from "../db/questionDb";
 import { CheckCircle } from 'lucide-react';
+import { useHammer } from "../context/hammerContext";
 
 export default function Balance() {
   const [n2o, setN2O] = useState(0);
@@ -17,6 +18,8 @@ export default function Balance() {
   const [isGoldDisabled, setIsGoldDisabled] = useState(false);
   const [isSilverDisabled, setIsSilverDisabled] = useState(false);
   const [isBronzeDisabled, setIsBronzeDisabled] = useState(false);
+  const { updateRank } = useHammer();
+
 
   const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000; // 1주일 (밀리초)
 
@@ -71,10 +74,10 @@ export default function Balance() {
   const handleRankChange = (rank, price) => {
     if (n2o < price) {
       setPop(true);
-      setTimeout(() => setPop(false), 1500); // 1.5초 후 복사 메시지 초기화
+      setTimeout(() => setPop(false), 1500); // 1.5초 후 메시지 초기화
       return
     }
-
+    updateRank(rank);
     setCurrentRank(rank);
     const currentTime = new Date().getTime();
     localStorage.setItem('currentRank', rank);
