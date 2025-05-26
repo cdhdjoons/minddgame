@@ -6,34 +6,73 @@ const HammerContext = createContext();
 
 export function HammerProvider({ children }) {
     const [hammerCount, setHammerCount] = useState(0); // 서버와 클라이언트에서 동일한 초기값
+    const [rank, setRank] = useState("no rank"); // 기본 rank: bronze
 
+    // rank에 따른 증가 속도
+    const getIncrement = (rank) => {
+        switch (rank) {
+            case "gold":
+                return 2;
+            case "silver":
+                return 1.5;
+            case "bronze":
+                return 1.2;
+            default:
+                return 1; // 잘못된 rank일 경우 기본값
+        }
+    };
+
+    // rank에 따른 최대치
+    const getMaxCount = (rank) => {
+        switch (rank) {
+            case "gold":
+                return 5000;
+            case "silver":
+                return 3000;
+            case "bronze":
+                return 2000;
+            default:
+                return 1000; // 잘못된 rank일 경우 기본값
+        }
+    };
 
     // 클라이언트에서만 localStorage 읽기
     useEffect(() => {
-        const saved = localStorage.getItem("hammerCount");
-        if (saved) {
-            setHammerCount(parseInt(saved, 10));
+        const savedCount = localStorage.getItem("hammerCount");
+        if (savedCount) {
+            const count = parseFloat(savedCount);
+            const maxCount = getMaxCount(rank);
+            setHammerCount(Math.min(count, maxCount)); // 최대치 초과 방지
+        }
+        const savedRank = localStorage.getItem("currentRank");
+        if (savedRank && ["gold", "silver", "bronze"].includes(savedRank)) {
+            setRank(savedRank);
+        } else {
+            localStorage.setItem("currentRank", "no rank"); // 기본값 설정
         }
     }, []);
 
-    // 1초마다 hammerCount 증가 (최대 1000)
+
+    // 1초마다 hammerCount 증가
     useEffect(() => {
         const interval = setInterval(() => {
             setHammerCount((prev) => {
-                if (prev >= 900) {
-                    localStorage.setItem("hammerCount", "900"); // 최대치 저장
-                    clearInterval(interval); // 최대치 도달 시 타이머 중지
-                    return prev; // 더 이상 증가하지 않음
+                const maxCount = getMaxCount(rank);
+                if (prev >= maxCount) {
+                    localStorage.setItem("hammerCount", maxCount.toString());
+                    clearInterval(interval);
+                    return maxCount;
                 }
-                const newCount = prev + 1;
+                const increment = getIncrement(rank);
+                const newCount = prev + increment;
                 localStorage.setItem("hammerCount", newCount.toString());
                 return newCount;
             });
         }, 1000);
 
-        // 컴포넌트 언마운트 시 interval 정리
         return () => clearInterval(interval);
-    }, [hammerCount]);
+    }, [hammerCount, rank]);
+
 
     // hammerCount 감소 함수
     const decreaseHammer = () => {
@@ -50,7 +89,7 @@ export function HammerProvider({ children }) {
 
 
     return (
-        <HammerContext.Provider value={{ hammerCount, decreaseHammer }}>
+        <HammerContext.Provider value={{ hammerCount, decreaseHammer, rank }}>
             {children}
         </HammerContext.Provider>
     );

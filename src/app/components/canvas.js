@@ -14,6 +14,8 @@ export default function GameCanvas({ gameState, setGameState, resetGame }) {
     const [imagesLoaded, setImagesLoaded] = useState(false); // 이미지 로드 상태
     const { hammerCount, decreaseHammer } = useHammer();
     const { updateGemCount } = useGemContext(); // GemProvider에서 updateGemCount 가져오기
+    const [gifPosition, setGifPosition] = useState(null); // GIF 표시 위치 상태
+    const [gifVisible, setGifVisible] = useState(false); // GIF 표시 여부
 
     // depth에 따른 이미지 경로 매핑
     const getBlockImageSrc = (depth) => {
@@ -260,27 +262,27 @@ export default function GameCanvas({ gameState, setGameState, resetGame }) {
     // 캔버스 크기 동적 조정 및 TILE_SIZE 계산
     useEffect(() => {
         const canvas = canvasRef.current;
+        if (!canvas) return; // 캔버스가 없으면 종료
         const ctx = canvas.getContext("2d");
 
         const resizeCanvas = () => {
             // 캔버스의 표시 크기 가져오기 (CSS 크기)
+            const rect = canvas.getBoundingClientRect();
             const displayWidth = canvas.clientWidth;
             const displayHeight = canvas.clientHeight;
-
             // 최소 크기 설정 (최소 너비 200px)
             const minCanvasSize = 200;
             const canvasSize = Math.max(minCanvasSize, Math.min(displayWidth, 800));
-
             // 캔버스의 내부 픽셀 크기 동기화
             canvas.width = canvasSize;
             canvas.height = canvasSize;
-
             // TILE_SIZE를 캔버스 너비의 20%로 설정
             const newTileSize = displayWidth / GRID_SIZE;
             setTileSize(newTileSize);
 
             // 캔버스 다시 그리기
             drawGrid(ctx, gameState.grid, gameState.gems);
+            
         };
 
         // 초기 크기 설정
@@ -293,9 +295,24 @@ export default function GameCanvas({ gameState, setGameState, resetGame }) {
         return () => observer.disconnect();
     }, [gameState, blockImages, gemImages]);
 
+    // 화면 클릭 위치에 GIF 표시 함수
+    const showGifAtPosition = (x, y) => {
+        const rect = canvasRef.current?.getBoundingClientRect();
+        if (rect) {
+            setGifPosition({ x: x - rect.left, y: y - rect.top });
+            setGifVisible(true);
+            setTimeout(() => {
+                setGifVisible(false);
+                setGifPosition(null);
+            }, 500);
+        }
+    };
+
+
     // 클릭 및 터치 이벤트 처리
     useEffect(() => {
         const canvas = canvasRef.current;
+        if (!canvas) return; // 캔버스가 없으면 종료
         const ctx = canvas.getContext("2d");
 
         const handleInteraction = (x, y) => {
@@ -312,11 +329,13 @@ export default function GameCanvas({ gameState, setGameState, resetGame }) {
 
                 // 1. 블록이 있는 경우: 블록 깊이 감소
                 if (newGrid[row]?.[col]?.state === "intact") {
-                    // if(hammerCount < 1) {
-                    //     return 
-                    // }
+                    if (hammerCount < 1) {
+                        return
+                    }
                     newGrid[row][col].depth -= 1;
                     decreaseHammer();//hammer 갯수 감소
+                    // 클릭 위치에 GIF 표시
+                    showGifAtPosition(x, y);
 
                     if (newGrid[row][col].depth === 0) {
                         newGrid[row][col].state = "broken";
@@ -378,13 +397,30 @@ export default function GameCanvas({ gameState, setGameState, resetGame }) {
             canvas.removeEventListener("click", handleClick);
             canvas.removeEventListener("touchstart", handleTouch);
         };
-    }, [gameState, setGameState, tileSize, resetGame]);
+    }, [gameState, setGameState, tileSize, resetGame, hammerCount, decreaseHammer, updateGemCount]);
 
     return (
-        <canvas
-            ref={canvasRef}
-            className="w-full aspect-square rounded-lg shadow-md"
-            style={{ objectFit: "contain" }}
-        />
+        <div className="relative">
+            <canvas
+                ref={canvasRef}
+                className="w-full aspect-square rounded-lg shadow-md"
+                style={{ objectFit: "contain" }}
+            />
+            {gifVisible && gifPosition && (
+                <img
+                    src="/image/md_hammer_motion.gif"
+                    alt="hammergif"
+                    className="z-[999]"
+                    style={{
+                        position: "absolute",
+                        left: gifPosition.x - tileSize * 0.4,
+                        top: gifPosition.y - tileSize * 0.5,
+                        width: tileSize,
+                        height: tileSize,
+                        pointerEvents: "none", // 클릭 방지
+                    }}
+                />
+            )}
+        </div>
     );
 }
