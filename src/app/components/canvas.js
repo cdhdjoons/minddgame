@@ -413,10 +413,10 @@ export default function GameCanvas({ gameState, setGameState, resetGame }) {
                     className="z-[999]"
                     style={{
                         position: "absolute",
-                        left: gifPosition.x - tileSize * 0.4,
-                        top: gifPosition.y - tileSize * 0.5,
-                        width: tileSize,
-                        height: tileSize,
+                        left: gifPosition.x - tileSize * 1.1,
+                        top: gifPosition.y - tileSize * 1.2,
+                        width: tileSize * 2.5,
+                        height: tileSize * 2.5,
                         pointerEvents: "none", // 클릭 방지
                     }}
                 />
