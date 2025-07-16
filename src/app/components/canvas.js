@@ -13,16 +13,16 @@ export default function GameCanvas({ gameState, setGameState, resetGame }) {
     const [gemImages, setGemImages] = useState({}); // 보석 이미지 저장
     const [imagesLoaded, setImagesLoaded] = useState(false); // 이미지 로드 상태
     const { hammerCount, decreaseHammer } = useHammer();
-    const { updateGemCount } = useGemContext(); // GemProvider에서 updateGemCount 가져오기
+    const { updateGemCount, score, setScore } = useGemContext(); // GemProvider에서 updateGemCount 가져오기
     const [gifPosition, setGifPosition] = useState(null); // GIF 표시 위치 상태
     const [gifVisible, setGifVisible] = useState(false); // GIF 표시 여부
 
     // depth에 따른 이미지 경로 매핑
     const getBlockImageSrc = (depth) => {
-        if (depth >= 7) {
+        if (depth >= 3) {
             // console.log("Loading image for depth 10~7: /images/block.png"); // 디버깅 로그
             return "/image/block.png"; // depth 10~7
-        } else if (depth >= 4) {
+        } else if (depth >= 2) {
             // console.log("Loading image for depth 6-4: /images/block_2.png"); // 디버깅 로그
             return "/image/block_2.png"; // depth 6~4
         } else {
@@ -38,6 +38,17 @@ export default function GameCanvas({ gameState, setGameState, resetGame }) {
         if (size === 3) return "/image/gem_1x3.svg"; // 1x3
         if (size === 2) return "/image/gem_2x1.svg"; // 2x1
         return "/image/gem_small.png"; // 기본값
+    };
+
+    // 보석 크기에 따른 점수 매핑
+    const getGemScore = (size) => {
+        switch (size) {
+            case 1: return 50;
+            case 2: return 150;
+            case 3: return 300;
+            case 4: return 600;
+            default: return 0;
+        }
     };
 
     // 이미지 미리 로드
@@ -282,7 +293,7 @@ export default function GameCanvas({ gameState, setGameState, resetGame }) {
 
             // 캔버스 다시 그리기
             drawGrid(ctx, gameState.grid, gameState.gems);
-            
+
         };
 
         // 초기 크기 설정
@@ -314,62 +325,114 @@ export default function GameCanvas({ gameState, setGameState, resetGame }) {
         const canvas = canvasRef.current;
         if (!canvas) return; // 캔버스가 없으면 종료
         const ctx = canvas.getContext("2d");
+        //보석 클릭으로 획득**
+        // const handleInteraction = (x, y) => {
+        //     const rect = canvas.getBoundingClientRect();
+        //     const adjustedX = x - rect.left;
+        //     const adjustedY = y - rect.top;
 
+        //     const col = Math.floor(adjustedX / tileSize);
+        //     const row = Math.floor(adjustedY / tileSize);
+
+        //     if (row >= 0 && row < GRID_SIZE && col >= 0 && col < GRID_SIZE) {
+        //         const newGrid = [...gameState.grid.map((row) => [...row])];
+        //         const newGems = [...gameState.gems];
+
+        //         // 1. 블록이 있는 경우: 블록 깊이 감소
+        //         if (newGrid[row]?.[col]?.state === "intact") {
+        //             if (hammerCount < 1) {
+        //                 return
+        //             }
+        //             newGrid[row][col].depth -= 1;
+        //             decreaseHammer();//hammer 갯수 감소
+        //             // 클릭 위치에 GIF 표시
+        //             showGifAtPosition(x, y);
+
+        //             if (newGrid[row][col].depth === 0) {
+        //                 newGrid[row][col].state = "broken";
+
+        //             }
+        //         }
+        //         // 2. 블록이 깨진 상태이고 보석이 있는 경우: 보석 수집
+        //         else if (newGrid[row]?.[col]?.state === "broken") {
+        //             const gemIndex = newGems.findIndex(
+        //                 (gem) => !gem.collected && isClickOnGem(row, col, gem) && isGemFullyRevealed(gem, newGrid)
+        //             );
+        //             if (gemIndex !== -1) {
+        //                 newGems[gemIndex].collected = true;
+        //                 const newCollectedGems = gameState.collectedGems + 1;
+        //                 const gemType = newGems[gemIndex].type;
+        //                 // 모든 보석이 수집되었는지 확인
+        //                 if (newCollectedGems === gameState.gems.length) {
+        //                     setTimeout(() => {
+        //                         resetGame(); // 모든 보석 수집 시 게임 리셋
+        //                     }, 500); // 0.5초 지연 후 리셋
+        //                 }
+
+        //                 setGameState((prev) => ({
+        //                     ...prev,
+        //                     collectedGems: newCollectedGems,
+        //                 }));
+        //                 updateGemCount(gemType); // GemProvider의 updateGemCount 호출
+        //             }
+        //         }
+
+        //         setGameState((prev) => ({
+        //             ...prev,
+        //             grid: newGrid,
+        //             gems: newGems,
+        //         }));
+        //     }
+        // };
+        //보석 자동수집**
         const handleInteraction = (x, y) => {
             const rect = canvas.getBoundingClientRect();
             const adjustedX = x - rect.left;
             const adjustedY = y - rect.top;
+            console.log("Adjusted Coordinates:", adjustedX, adjustedY); // 디버깅 로그
 
             const col = Math.floor(adjustedX / tileSize);
             const row = Math.floor(adjustedY / tileSize);
+            console.log("Calculated row, col:", row, col); // 디버깅 로그
 
             if (row >= 0 && row < GRID_SIZE && col >= 0 && col < GRID_SIZE) {
                 const newGrid = [...gameState.grid.map((row) => [...row])];
                 const newGems = [...gameState.gems];
 
-                // 1. 블록이 있는 경우: 블록 깊이 감소
                 if (newGrid[row]?.[col]?.state === "intact") {
-                    if (hammerCount < 1) {
-                        return
-                    }
+                    if (hammerCount < 1) return;
                     newGrid[row][col].depth -= 1;
-                    decreaseHammer();//hammer 갯수 감소
-                    // 클릭 위치에 GIF 표시
+                    decreaseHammer();
                     showGifAtPosition(x, y);
 
                     if (newGrid[row][col].depth === 0) {
                         newGrid[row][col].state = "broken";
-                    }
-                }
-                // 2. 블록이 깨진 상태이고 보석이 있는 경우: 보석 수집
-                else if (newGrid[row]?.[col]?.state === "broken") {
-                    const gemIndex = newGems.findIndex(
-                        (gem) => !gem.collected && isClickOnGem(row, col, gem) && isGemFullyRevealed(gem, newGrid)
-                    );
-                    if (gemIndex !== -1) {
-                        newGems[gemIndex].collected = true;
-                        const newCollectedGems = gameState.collectedGems + 1;
-                        const gemType = newGems[gemIndex].type;
-                        // 모든 보석이 수집되었는지 확인
-                        if (newCollectedGems === gameState.gems.length) {
-                            setTimeout(() => {
-                                resetGame(); // 모든 보석 수집 시 게임 리셋
-                            }, 500); // 0.5초 지연 후 리셋
+                        // 보석 자동 수집 체크
+                        for (let i = 0; i < newGems.length; i++) {
+                            if (!newGems[i].collected && isGemFullyRevealed(newGems[i], newGrid)) {
+                                setTimeout(() => {
+                                    newGems[i].collected = true;
+                                    const newCollectedGems = gameState.collectedGems + 1;
+                                    const gemType = newGems[i].type;
+                                    const gemScore = getGemScore(newGems[i].size);
+                                    const newScore = score + gemScore;
+                                    setScore(newScore);
+                                    localStorage.setItem("n2o", newScore);
+                                    if (newCollectedGems === gameState.gems.length) {
+                                        setTimeout(() => resetGame(), 500); // 모든 보석 수집 시 게임 리셋
+                                    }
+                                    setGameState((prev) => ({
+                                        ...prev,
+                                        collectedGems: newCollectedGems,
+                                    }));
+                                    updateGemCount(gemType);
+                                }, 700)
+                            }
                         }
-
-                        setGameState((prev) => ({
-                            ...prev,
-                            collectedGems: newCollectedGems,
-                        }));
-                        updateGemCount(gemType); // GemProvider의 updateGemCount 호출
                     }
                 }
 
-                setGameState((prev) => ({
-                    ...prev,
-                    grid: newGrid,
-                    gems: newGems,
-                }));
+                setGameState((prev) => ({ ...prev, grid: newGrid, gems: newGems }));
             }
         };
 

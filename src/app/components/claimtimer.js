@@ -14,7 +14,7 @@ export default function ClaimTimer() {
     const [teleId, setTeleId] = useState('unknown');
     const [totalGems, setTotalGems] = useState(0);
     const { hammerCount } = useHammer();
-    const { collectedGemsByType } = useGemContext(); // GemProvider에서 collectedGemsByType 가져오기
+    const { collectedGemsByType, score } = useGemContext(); // GemProvider에서 collectedGemsByType 가져오기
 
     useEffect(() => {
         const checkTelegramSDK = () => {
@@ -144,7 +144,7 @@ export default function ClaimTimer() {
                                     objectFit="cover"
                                 />
                             </div>
-                            <p className="mr-[2%] text-[5vmin] sm:text-[3vmin] font-bold text-stroke-mini text-shadow-sm">{n2o > 999 ? `${n2o / 1000}k` : n2o}</p>
+                            <p className="mr-[2%] text-[5vmin] sm:text-[3vmin] font-bold text-stroke-mini text-shadow-sm">{score > 999 ? `${score / 1000}k` : score}</p>
                         </div>
                     </div>
                 </div>
@@ -210,7 +210,7 @@ export default function ClaimTimer() {
                                 />
                             </div>
                             <p className="leading-3 text-[2vmax] text-white sm:text-[3vmin] font-bold text-stroke-mini text-shadow-sm -skew-x-12 -rotate-3 ">
-                                {hammerCount}
+                                {hammerCount.toFixed(1)}
                             </p>
                         </div>
                     </div>

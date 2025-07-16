@@ -61,7 +61,7 @@ export default function RankBar() {
         <div className="flex flex-col w-[70%] bg-[#FFC78E] pb-[1%]">
             <div className="flex justify-between px-[2%] w-full">
                 <p className="  text-white text-[4vmin] sm:text-[2vmin] font-bold text-stroke-mini text-shadow-sm capitalize">{currentRank}</p>
-                <p className="  text-white text-[4vmin] sm:text-[2vmin] font-bold text-stroke-mini text-shadow-sm">{timeLeft}</p>
+                <p className="  text-white text-[4vmin] sm:text-[2vmin] font-bold text-stroke-mini text-shadow-sm">{currentRank === 'no rank' ? '' : timeLeft}</p>
             </div>
             <div className="flex justify-start items-center px-[2%] w-full relative">
                 <div className="w-[6.5vmin] sm:w-[6vmin] aspect-[25/25] relative skew-x-[5deg] z-10 ">

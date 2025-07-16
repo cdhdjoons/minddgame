@@ -54,7 +54,7 @@ export function HammerProvider({ children }) {
     }, []);
 
     console.log(rank);
-    // 1초마다 hammerCount 증가
+    // 1.5초마다 hammerCount 증가
     useEffect(() => {
         const interval = setInterval(() => {
             setHammerCount((prev) => {
@@ -69,7 +69,7 @@ export function HammerProvider({ children }) {
                 localStorage.setItem("hammerCount", newCount.toString());
                 return newCount;
             });
-        }, 1000);
+        }, 1500);
 
         return () => clearInterval(interval);
     }, [rank]);

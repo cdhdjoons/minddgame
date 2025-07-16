@@ -21,7 +21,7 @@ export default function Puzzle({ setTotalGems }) {
         Array(GRID_SIZE)
           .fill()
           .map(() => ({
-            depth: 10, // 1~10 사이의 랜덤 깊이
+            depth: 3, // 1~10 사이의 랜덤 깊이
             state: "intact",
           }))
       );

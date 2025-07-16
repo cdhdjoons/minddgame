@@ -12,6 +12,14 @@ export function GemProvider({ children }) {
     diamond: 0,
   });
 
+  const [score, setScore] = useState(() => {
+    return parseInt(localStorage.getItem("n2o")) || 0;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("n2o", score);
+  }, [score]);
+
   useEffect(() => {
     const storedGemsByType = localStorage.getItem("collectedGemsByType")
       ? JSON.parse(localStorage.getItem("collectedGemsByType"))
@@ -28,7 +36,7 @@ export function GemProvider({ children }) {
   };
 
   return (
-    <GemContext.Provider value={{ collectedGemsByType, updateGemCount }}>
+    <GemContext.Provider value={{ collectedGemsByType, updateGemCount, score, setScore }}>
       {children}
     </GemContext.Provider>
   );
