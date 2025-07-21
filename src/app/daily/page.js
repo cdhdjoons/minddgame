@@ -49,7 +49,6 @@ export default function DailyTask() {
                     updatedClicks[item.title] = parsed[item.title] === true;
                 }
             });
-            setClickedMenus(updatedClicks);
         } else {
             // 초기 상태 설정
             menu.forEach((item) => {
@@ -64,13 +63,12 @@ export default function DailyTask() {
     const handleClick = (title, link, price) => {
         const currentUTCDay = getUTCDay();
         if (!clickedMenus[title]) {
+            // localStorage에서 최신 데이터 가져오기
+            const stored = localStorage.getItem('menuClicks');
+            let storageData = stored ? JSON.parse(stored) : {};
             // 클릭 처리
             const updatedClicks = { ...clickedMenus, [title]: true };
-            setClickedMenus(updatedClicks);
-
-            // localStorage에 저장
-            const storageData = { ...updatedClicks };
-
+            
             if (title === 'Invite Friends') {
                 // Invite Friends 클릭 횟수 증가
                 const newCount = inviteFriendsCount + 1;
