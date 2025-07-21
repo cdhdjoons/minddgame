@@ -42,7 +42,7 @@ export default function Wallet() {
                 setOnWallet(true);
                 setTimeout(() => setOnWallet(false), 1500);
                 localStorage.setItem("DisabledWalletTask", "true");
-                localStorage.setItem("n2o", nowN2O + 3000);
+                localStorage.setItem("n2o", nowN2O + 1000);
             }
         });
         return () => unsubscribe();
@@ -61,7 +61,7 @@ export default function Wallet() {
 
     return (
         <AnimatePresence mode="wait">
-            <motion.div className={` `}
+            <motion.div className={`w-full h-[12%] `}
                 key="ton-ui"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -71,22 +71,82 @@ export default function Wallet() {
 
                 {onWallet ? <div className="absolute top-[10px] z-[999]"><Alert severity="success">Connect Wallet Complete.</Alert></div> : ''}
                 {disabledWalletTask ?
-                    <div className=" bg-taskBg2 w-[36vmax] sm:w-[20vmax] aspect-[438/101] relative active:scale-90 transition-transform duration-200">
-                        <Image
-                            src="/image/jet_taskconnect_off.png"
-                            alt="main logo"
-                            layout="fill"
-                            objectFit="cover"
-                        />
+                    <div className=" w-full h-full sm:w-[90%] relative flex flex-col justify-between items-center bg-[#585858] rounded-sm border-2 border-black skew-x-[-5deg]">
+                        <div className="w-full h-full flex justify-evenly items-center skew-x-[5deg] relative">
+                            <div className="absolute top-[-20%] w-[105%] flex justify-end items-center">
+                                <div className="w-[11vmin] sm:w-[7vmin] aspect-[1/1] relative rotate-2 ">
+                                    <Image
+                                        src="/image/md_invite_check.svg"
+                                        alt="main logo"
+                                        layout="fill"
+                                        objectFit="cover"
+                                    />
+                                </div>
+                            </div>
+                            <div className="w-[12vmin] h-full sm:w-[20vmin] relative">
+                                <Image
+                                    src='/image/md_daily_4.svg'
+                                    alt="daily icon"
+                                    layout="fill"
+                                    objectFit="contain"
+                                />
+                            </div>
+                            <div className="flex flex-col w-[50%] h-full ">
+                                <div className="w-full flex flex-col justify-start items-center ">
+                                    <p className="text-white text-stroke-middle text-[5vmin] w-full text-start">Linked Wallet</p>
+                                    <div className="flex">
+                                        <div className="w-[8vmin] sm:w-[3vmin] aspect-[31/25] relative  ">
+                                            <Image
+                                                src="/image/md_point_icon.svg"
+                                                alt="main logo"
+                                                layout="fill"
+                                                objectFit="cover"
+                                            />
+                                        </div>
+                                        <p className="text-white text-stroke-middle text-[5vmin]">+1000</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     :
-                    <div onClick={connectWallet} className=" bg-taskBg2 w-[36vmax] sm:w-[20vmax] aspect-[438/101] relative active:scale-90 transition-transform duration-200">
-                        <Image
-                            src="/image/jet_taskconnect.png"
-                            alt="main logo"
-                            layout="fill"
-                            objectFit="cover"
-                        />
+                    <div onClick={connectWallet} className="w-full h-full sm:w-[90%] relative flex flex-col justify-between items-center bg-red-400 rounded-sm border-2 border-black skew-x-[-5deg]">
+                        <div className="w-full h-full flex justify-evenly items-center skew-x-[5deg] relative">
+                            <div className="absolute top-[-20%] w-[105%] flex justify-end items-center">
+                                <div className="w-[11vmin] sm:w-[7vmin] aspect-[1/1] relative rotate-2 ">
+                                    <Image
+                                        src="/image/md_invite_check.svg"
+                                        alt="main logo"
+                                        layout="fill"
+                                        objectFit="cover"
+                                    />
+                                </div>
+                            </div>
+                            <div className="w-[12vmin] h-full sm:w-[20vmin] relative">
+                                <Image
+                                    src='/image/md_daily_4.svg'
+                                    alt="daily icon"
+                                    layout="fill"
+                                    objectFit="contain"
+                                />
+                            </div>
+                            <div className="flex flex-col w-[50%] h-full ">
+                                <div className="w-full flex flex-col justify-start items-center ">
+                                    <p className="text-white text-stroke-middle text-[5vmin] w-full text-start">Link Wallet</p>
+                                    <div className="flex">
+                                        <div className="w-[8vmin] sm:w-[3vmin] aspect-[31/25] relative  ">
+                                            <Image
+                                                src="/image/md_point_icon.svg"
+                                                alt="main logo"
+                                                layout="fill"
+                                                objectFit="cover"
+                                            />
+                                        </div>
+                                        <p className="text-white text-stroke-middle text-[5vmin]">+1000</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 }
             </motion.div>

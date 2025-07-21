@@ -12,11 +12,11 @@ export default function DailyTask() {
     const manifestUrl = "https://minddgame.vercel.app/tonconnect-manifest.json";
 
     const menu = [
-        { title: 'Follow Our X', price: 30000, icon: '/image/md_daily_1.svg', link: '/', color: 'bg-[#D2EB13]' },
-        { title: 'Join Telegram chat', price: 30000, icon: '/image/md_daily_2.svg', link: '/', color: 'bg-[#13EB75]' },
-        { title: 'Visit our official web', price: 30000, icon: '/image/md_daily_3.svg', link: '/', color: 'bg-[#E113EB]' },
-        { title: 'Visit Linktree', price: 30000, icon: '/image/md_daily_4.svg', link: '/', color: 'bg-[#EB1317]' },
-        { title: 'Visit instargram', price: 30000, icon: '/image/md_daily_5.svg', link: '/', color: 'bg-[#093493]' },
+        { title: 'Daily Reward', price: 100, icon: '/image/md_daily_1.svg', link: '/', color: 'bg-[#D2EB13]' },
+        { title: 'RETWEET X', price: 500, icon: '/image/md_daily_2.svg', link: 'https://x.com/DiGi_MineD/status/1940768511389061568', color: 'bg-[#13EB75]' },
+        { title: 'Visit X', price: 1000, icon: '/image/md_daily_3.svg', link: 'https://x.com/DiGi_MineD', color: 'bg-[#E113EB]' },
+        { title: 'Invite Friends', price: 1000, icon: '/image/md_daily_4.svg', link: '/', color: 'bg-[#EB1317]' },
+        { title: 'Visit Telegram', price: 1000, icon: '/image/md_daily_5.svg', link: 'https://t.me/mined_official', color: 'bg-[#093493]' },
     ]
 
     // UTC 날짜 문자열 반환 (YYYY-MM-DD 형식)
@@ -53,7 +53,7 @@ export default function DailyTask() {
     }, []);
 
     // 클릭 핸들러
-    const handleClick = (title, link) => {
+    const handleClick = (title, link, price) => {
         const currentUTCDay = getUTCDay();
         if (!clickedMenus[title]) {
             // 클릭 처리
@@ -69,7 +69,7 @@ export default function DailyTask() {
 
             // localStorage에 포인트 저장
             const storedPoint = localStorage.getItem('n2o');
-            localStorage.setItem('n2o', Number(storedPoint) + 30000);
+            localStorage.setItem('n2o', Number(storedPoint) + price);
 
             // 링크로 이동
             window.location.href = link;
@@ -100,14 +100,14 @@ export default function DailyTask() {
                     </div>
                     <p className=" text-[2vmax] sm:text-[1.3vmax] text-white text-stroke-middle flex flex-col justify-center items-center">Daily missions are updated at 00:00 UTC.<br /></p>
 
-                    <div className=" w-full h-[85%] px-[2%] flex flex-col justify-evenly items-center overflow-hidden " >
+                    <div className=" w-full h-[85%] px-[2%] flex flex-col justify-evenly items-center overflow-x-hidden overflow-y-scroll  " >
                         {menu.map((item, index) => (
-                            <a key={index} href={clickedMenus[item.title] ? '' : item.link}
+                            <a key={index} target="_blank" rel="noopener noreferrer" href={clickedMenus[item.title] ? item.link : ''}
                                 onClick={(e) => {
                                     if (clickedMenus[item.title]) {
                                         e.preventDefault(); // 클릭 비활성화
                                     } else {
-                                        handleClick(item.title, item.link);
+                                        handleClick(item.title, item.link, item.price);
                                     }
                                 }}
                                 className={`w-full h-[12%] sm:w-[90%] relative flex flex-col justify-between items-center ${clickedMenus[item.title] ? 'bg-[#585858]' : item.color} rounded-sm border-2 border-black skew-x-[-5deg]`}>
@@ -149,6 +149,7 @@ export default function DailyTask() {
                                 </div>
                             </a>
                         ))}
+                        <Wallet />
                         {/* <div className="w-full h-[12%] sm:w-[90%] relative flex flex-col justify-between items-center bg-[#C8D65C] rounded-sm border-2 border-black skew-x-[-5deg]">
                             <div className="w-full h-full flex justify-center items-center skew-x-[5deg] relative">
                                 <div className="absolute top-[-20%] w-[105%] flex justify-between items-center">
