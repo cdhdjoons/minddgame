@@ -17,6 +17,7 @@ export default function LeaderBoard() {
         // localStorage에서 n2o와 rank 값을 가져옴
         const storedN2O = localStorage.getItem("n2o");
         const storedRank = localStorage.getItem("rank");
+        const storedRankScore = localStorage.getItem("rankScore");
 
         // n2o와 holderCount 초기화
         const baseDate = new Date("2025-02-19").getTime();
@@ -29,14 +30,14 @@ export default function LeaderBoard() {
         setHolderCount(125 + dayCount / 10); // holderCount 초기값 명시
 
         // 저장된 rank가 있고, n2o가 변경되지 않았다면 저장된 rank 사용
-        if (storedRank !== null && storedN2O !== null) {
+        if (storedRank !== null && storedN2O !== null && storedRankScore !== null && storedN2O === storedRankScore) {
             setRank(Number(storedRank));
         } else {
             // n2o가 변경되었거나 저장된 rank가 없으면 새로 생성
             const randomRank = Math.floor(Math.random() * (98000 - 95000 + 1)) + 95000;
             setRank(randomRank);
             localStorage.setItem("rank", randomRank.toString());
-            localStorage.setItem("n2o", currentN2O.toString());
+            localStorage.setItem("rankScore", currentN2O.toString());
         }
     }, []);
 
