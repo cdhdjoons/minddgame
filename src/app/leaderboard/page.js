@@ -14,49 +14,45 @@ export default function LeaderBoard() {
     const [holderCount, setHolderCount] = useState(125);
 
     useEffect(() => {
-        // 초기 n2o 값 불러오기
+        // localStorage에서 n2o와 rank 값을 가져옴
         const storedN2O = localStorage.getItem("n2o");
-        const baseDate = new Date("2025-02-19").getTime(); // 기준 날짜
-        const now = Date.now(); // 현재 시간
-        const twoDays = 1000 * 60 * 60 * 24 * 2; // 2일을 밀리초로
+        const storedRank = localStorage.getItem("rank");
+
+        // n2o와 holderCount 초기화
+        const baseDate = new Date("2025-02-19").getTime();
+        const now = Date.now();
+        const twoDays = 1000 * 60 * 60 * 24 * 2;
         const dayCount = Math.floor((now - baseDate) / twoDays);
 
-        if (storedN2O !== null) {
-            setN2O(Number(storedN2O));
-        }
-        setHolderCount(holderCount + (dayCount / 10));
-        // console.log(dayCount);
-    }, []);
+        let currentN2O = Number(storedN2O) || 0; // 저장된 n2o가 없으면 0
+        setN2O(currentN2O);
+        setHolderCount(125 + dayCount / 10); // holderCount 초기값 명시
 
-    //랭킹 순위
-    useEffect(() => {
-        const storedRank = localStorage.getItem("rank");
-        const storedN2O = localStorage.getItem("n2o");
-
-        // n2o와 storedN2O를 숫자로 비교
-        const currentN2O = Number(n2o);
-        const savedN2O = storedN2O !== null ? Number(storedN2O) : null;
-
-        if (storedRank !== null && savedN2O === currentN2O) {
-            // 저장된 rank가 있고, n2o가 변경되지 않았다면 저장된 rank 사용
+        // 저장된 rank가 있고, n2o가 변경되지 않았다면 저장된 rank 사용
+        if (storedRank !== null && storedN2O !== null) {
             setRank(Number(storedRank));
         } else {
             // n2o가 변경되었거나 저장된 rank가 없으면 새로 생성
             const randomRank = Math.floor(Math.random() * (98000 - 95000 + 1)) + 95000;
             setRank(randomRank);
             localStorage.setItem("rank", randomRank.toString());
-            // n2o도 localStorage에 저장하여 다음 비교에 사용
             localStorage.setItem("n2o", currentN2O.toString());
         }
-    }, [n2o]);
+    }, []);
 
-    // n2o가 변경될 때마다 rank를 localStorage에 저장
+    //랭킹 순위
     useEffect(() => {
-        if (rank !== 0) {
-            // rank가 0이 아닌 경우에만 저장하여 초기값 문제 방지
-            localStorage.setItem("rank", rank.toString());
+        if (n2o !== 0) {
+        const storedN2O = localStorage.getItem("n2o");
+        if (storedN2O !== n2o.toString()) {
+            // n2o가 변경된 경우 새로운 rank 생성
+            const randomRank = Math.floor(Math.random() * (98000 - 95000 + 1)) + 95000;
+            setRank(randomRank);
+            localStorage.setItem("rank", randomRank.toString());
+            localStorage.setItem("n2o", n2o.toString());
         }
-    }, [rank]);
+    }
+    }, [n2o]);
 
     useEffect(() => {
         const checkTelegramSDK = () => {
