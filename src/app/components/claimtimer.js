@@ -26,7 +26,6 @@ export default function ClaimTimer() {
                         setTeleId(user.user.first_name);
                     } else {
                         setTeleId('--')
-                        setN2O(0)
                     }
                 }
             } else {

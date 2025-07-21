@@ -30,11 +30,28 @@ export default function LeaderBoard() {
 
     //랭킹 순위
     useEffect(() => {
-        const randomRank = Math.floor(Math.random() * (98000 - 95000 + 1)) + 95000;
+        const storedRank = localStorage.getItem("rank");
+        const storedN2O = localStorage.getItem("n2o");
 
-        setRank(randomRank);
-
+        // 저장된 n2o와 현재 n2o를 비교하여 변경 여부 확인
+        if (storedRank && storedN2O === n2o.toString()) {
+            // 저장된 rank가 있고, n2o가 변경되지 않았다면 저장된 rank 사용
+            setRank(Number(storedRank));
+        } else {
+            // n2o가 변경되었거나 저장된 rank가 없으면 새로 생성
+            const randomRank = Math.floor(Math.random() * (98000 - 95000 + 1)) + 95000;
+            setRank(randomRank);
+            localStorage.setItem("rank", randomRank.toString());
+        }
     }, [n2o]);
+
+    // n2o가 변경될 때마다 rank를 localStorage에 저장
+    useEffect(() => {
+        if (rank !== 0) {
+            // rank가 0이 아닌 경우에만 저장하여 초기값 문제 방지
+            localStorage.setItem("rank", rank.toString());
+        }
+    }, [rank]);
 
     useEffect(() => {
         const checkTelegramSDK = () => {
