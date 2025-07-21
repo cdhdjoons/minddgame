@@ -107,7 +107,7 @@ export default function LeaderBoard() {
                                 <p className=" text-[#7EFFCC] text-[2.8vmin] sm:text-[1vmin]">{rank}</p>
                             </div> */}
                             <div className=" absolute top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2 flex justify-between items-center gap-[5px]">
-                                <p className=" text-white text-[5.5vmin] sm:text-[3.5vmin]">{n2o}</p>
+                                <p className=" text-white text-[5.5vmin] sm:text-[3.5vmin]">{rank}</p>
                             </div>
                         </div>
                     </div>
