@@ -10,7 +10,7 @@ export default function Invite() {
     const [copied, setCopied] = useState(false);
 
     const handleCopyClick = () => {
-        const link = "Coming Soon"; // 복사할 링크
+        const link = "https://t.me/MineD_digi_bot"; // 복사할 링크
 
         // 클립보드에 링크를 복사
         navigator.clipboard.writeText(link).then(() => {
@@ -53,7 +53,8 @@ export default function Invite() {
                                     layout="fill"
                                     objectFit="fill"
                                 />
-                                <div className="bg-[#CD0034] border-[1px] border-black w-[80%] absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] text-white text-stroke-middle text-[4.3vmin] text-center skew-x-[-5deg] rounded-[3px]">INVITE NOW</div>
+                                <a target="_blank" rel="noopener noreferrer" href="tg://resolve?start" 
+                                className="bg-[#CD0034] border-[1px] border-black w-[80%] absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] text-white text-stroke-middle text-[4.3vmin] text-center skew-x-[-5deg] rounded-[3px] active:scale-90 transition-transform duration-150 ease-in-out">INVITE NOW</a>
                             </div>
                         </div>
                     </div>
@@ -80,14 +81,14 @@ export default function Invite() {
                                                     objectFit="cover"
                                                 />
                                             </div>
-                                            <p className="text-white text-stroke-middle text-[5vmin]">+30,000</p>
+                                            <p className="text-white text-stroke-middle text-[5vmin]">+5,000</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div onClick={handleCopyClick} className=" absolute bottom-[-30%] w-[80%] flex justify-center items-center 
                                 bg-[radial-gradient(ellipse,#F4D316,#552D00)] skew-x-[-5deg] border-black border-[1px]
                                 active:scale-90 transition-transform duration-100">
-                                    <p className=" text-[#F5D932] text-[4.2vmin] sm:text-[2.5vmin] text-stroke-middle">COPY INVITE CODE</p>
+                                    <p className=" text-[#F5D932] text-[4.2vmin] sm:text-[2.5vmin] text-stroke-middle active:scale-90 transition-transform duration-150 ease-in-out">COPY INVITE CODE</p>
                                 </div>
                             </div>
                         </div>

@@ -168,7 +168,7 @@ export default function ClaimTimer() {
                 <div className="w-full h-[70%] flex flex-col justify-center items-center relative ">
                     <div className={` h-full w-full flex flex-col justify-between relative`}>
                         <div className="flex justify-start gap-[47%] px-[5%] w-full bg-[#FFDE32] border-b-[4px] border-[#FFA800]">
-                            <p className="  text-white text-[4vmin] sm:text-[2vmin] font-bold text-stroke-mini text-shadow-sm">STAGE 001</p>
+                            <p className="  text-white text-[4vmin] sm:text-[2vmin] font-bold text-stroke-mini text-shadow-sm">STAGE</p>
                             <p className="  text-white text-[4vmin] sm:text-[2vmin] font-bold text-stroke-mini text-shadow-sm">HIDDEN GEM</p>
                             <div className=" absolute top-[-6%] right-0 ">
                                 <div className="w-[5vmax] aspect-[40/57] relative flex justify-center items-center z-50">
