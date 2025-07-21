@@ -74,7 +74,7 @@ export default function Invite() {
                                     layout="fill"
                                     objectFit="fill"
                                 />
-                                <a target="_blank" rel="noopener noreferrer" href={teleId ? `https://t.me/${teleId}` : 'https://t.me/MineD_digi_bot'}
+                                <a target="_blank" rel="noopener noreferrer" href={teleId ? `https://t.me/` : 'https://t.me/MineD_digi_bot'}
                                 className="bg-[#CD0034] border-[1px] border-black w-[80%] absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] text-white text-stroke-middle text-[4.3vmin] text-center skew-x-[-5deg] rounded-[3px] active:scale-90 transition-transform duration-150 ease-in-out">INVITE NOW</a>
                             </div>
                         </div>
