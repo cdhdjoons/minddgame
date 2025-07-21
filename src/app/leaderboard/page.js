@@ -33,8 +33,11 @@ export default function LeaderBoard() {
         const storedRank = localStorage.getItem("rank");
         const storedN2O = localStorage.getItem("n2o");
 
-        // 저장된 n2o와 현재 n2o를 비교하여 변경 여부 확인
-        if (storedRank && storedN2O === n2o.toString()) {
+        // n2o와 storedN2O를 숫자로 비교
+        const currentN2O = Number(n2o);
+        const savedN2O = storedN2O !== null ? Number(storedN2O) : null;
+
+        if (storedRank !== null && savedN2O === currentN2O) {
             // 저장된 rank가 있고, n2o가 변경되지 않았다면 저장된 rank 사용
             setRank(Number(storedRank));
         } else {
@@ -42,6 +45,8 @@ export default function LeaderBoard() {
             const randomRank = Math.floor(Math.random() * (98000 - 95000 + 1)) + 95000;
             setRank(randomRank);
             localStorage.setItem("rank", randomRank.toString());
+            // n2o도 localStorage에 저장하여 다음 비교에 사용
+            localStorage.setItem("n2o", currentN2O.toString());
         }
     }, [n2o]);
 
