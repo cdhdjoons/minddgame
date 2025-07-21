@@ -9,18 +9,6 @@ import questionDb from "./db/questionDb";
 
 export default function Home() {
 
-  useEffect(() => {
-    //몇 주 차인지 보여주기
-    const baseDate = new Date("2025-04-10").getTime(); // 기준 날짜
-    const now = Date.now(); // 현재 시간
-    const sevenDays = 1000 * 60 * 60 * 24 * 7; // 7일을 밀리초로
-    const dayCount = Math.floor((now - baseDate) / sevenDays);
-
-    // 49주가 되면 0으로 리셋
-    const weekCycle = dayCount % questionDb.length; // 0부터 49까지 반복
-
-    localStorage.setItem("week", weekCycle);
-  }, []);
 
   return (
     <div className=" w-full h-full">

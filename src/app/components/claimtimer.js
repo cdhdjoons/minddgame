@@ -21,7 +21,7 @@ export default function ClaimTimer() {
             if (typeof window !== 'undefined' && window.Telegram) {
                 const user = window.Telegram.WebApp.initDataUnsafe;
                 if (user) {
-                    console.log('Telegram User:', user);
+                    console.log('Telegram User:', user.user);
                     if (user.user) {
                         setTeleId(user.user.first_name);
                     } else {

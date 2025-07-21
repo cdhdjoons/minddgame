@@ -8,6 +8,7 @@ import Alert from '@mui/material/Alert';
 
 export default function Invite() {
     const [copied, setCopied] = useState(false);
+    const [teleId, setTeleId] = useState('unknown');
 
     const handleCopyClick = () => {
         const link = "https://t.me/MineD_digi_bot"; // 복사할 링크
@@ -20,6 +21,26 @@ export default function Invite() {
             console.error('클립보드 복사 실패:', err);
         });
     };
+
+    useEffect(() => {
+            const checkTelegramSDK = () => {
+                if (typeof window !== 'undefined' && window.Telegram) {
+                    const user = window.Telegram.WebApp.initDataUnsafe;
+                    if (user) {
+                        console.log('Telegram User:', user.user);
+                        if (user.user) {
+                            setTeleId(user.user.username || '--');
+                        } else {
+                            setTeleId('--')
+                        }
+                    }
+                } else {
+                    setTimeout(checkTelegramSDK, 1000); // 1초 후 다시 확인
+                }
+            };
+    
+            checkTelegramSDK(); // 초기 실행
+        }, []);
     return (
         <AnimatePresence mode="wait">
             <motion.div className=" w-full h-full"
@@ -53,7 +74,7 @@ export default function Invite() {
                                     layout="fill"
                                     objectFit="fill"
                                 />
-                                <a target="_blank" rel="noopener noreferrer" href="tg://resolve?start" 
+                                <a target="_blank" rel="noopener noreferrer" href={teleId ? `https://t.me/${teleId}` : 'https://t.me/MineD_digi_bot'}
                                 className="bg-[#CD0034] border-[1px] border-black w-[80%] absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] text-white text-stroke-middle text-[4.3vmin] text-center skew-x-[-5deg] rounded-[3px] active:scale-90 transition-transform duration-150 ease-in-out">INVITE NOW</a>
                             </div>
                         </div>

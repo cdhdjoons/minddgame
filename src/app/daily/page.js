@@ -16,7 +16,7 @@ export default function DailyTask() {
         { title: 'Daily Reward', price: 100, icon: '/image/md_daily_1.svg', link: '/', color: 'bg-[#D2EB13]' },
         { title: 'RETWEET X', price: 500, icon: '/image/md_daily_2.svg', link: 'https://x.com/DiGi_MineD/status/1940768511389061568', color: 'bg-[#13EB75]' },
         { title: 'Visit X', price: 1000, icon: '/image/md_daily_3.svg', link: 'https://x.com/DiGi_MineD', color: 'bg-[#E113EB]' },
-        { title: 'Invite Friends', price: 1000, icon: '/image/md_daily_4.svg', link: 'tg://resolve?start', color: 'bg-[#EB1317]' },
+        { title: 'Invite Friends', price: 1000, icon: '/image/md_daily_4.svg', link: '/invite', color: 'bg-[#EB1317]' },
         { title: 'Visit Telegram', price: 1000, icon: '/image/md_daily_5.svg', link: 'https://t.me/mined_official', color: 'bg-[#093493]' },
     ]
 
