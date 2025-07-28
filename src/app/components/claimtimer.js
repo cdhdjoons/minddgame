@@ -40,7 +40,7 @@ export default function ClaimTimer() {
         const storedN20 = localStorage.getItem('n2o');
         setN2O(Number(storedN20));
     }, []);
-
+    // console.log(n2o);
     return (
         <AnimatePresence mode="wait">
             <motion.div className={` h-full flex flex-col justify-between items-center relative pb-1 overflow-hidden `}

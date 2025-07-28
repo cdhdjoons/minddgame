@@ -19,6 +19,7 @@ export function GemProvider({ children }) {
     if (typeof window !== "undefined") {
       const savedScore = parseInt(localStorage.getItem("n2o")) || 0;
       setScore(savedScore);
+      console.log(savedScore);
     }
   }, []);
 
@@ -27,7 +28,9 @@ export function GemProvider({ children }) {
     if (typeof window !== "undefined") {
       localStorage.setItem("n2o", score);
     }
+
   }, [score]);
+  console.log(score);
 
   useEffect(() => {
     const storedGemsByType = localStorage.getItem("collectedGemsByType")

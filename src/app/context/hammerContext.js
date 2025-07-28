@@ -53,7 +53,7 @@ export function HammerProvider({ children }) {
         }
     }, []);
 
-    console.log(rank);
+    // console.log(rank);
     // 1.5초마다 hammerCount 증가
     useEffect(() => {
         const interval = setInterval(() => {

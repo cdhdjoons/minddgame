@@ -9,6 +9,7 @@ import Alert from '@mui/material/Alert';
 import questionDb from "../db/questionDb";
 import { CheckCircle } from 'lucide-react';
 import { useHammer } from "../context/hammerContext";
+import { useGemContext } from "../context/gemContext";
 
 export default function Balance() {
   const [n2o, setN2O] = useState(0);
@@ -19,6 +20,8 @@ export default function Balance() {
   const [isSilverDisabled, setIsSilverDisabled] = useState(false);
   const [isBronzeDisabled, setIsBronzeDisabled] = useState(false);
   const { updateRank } = useHammer();
+  const { setScore } = useGemContext(); // GemProvider에서 collectedGemsByType 가져오기
+
 
 
   const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000; // 1주일 (밀리초)
@@ -82,6 +85,7 @@ export default function Balance() {
     }
     updateRank(rank);
     setN2O(nowN2O - price);
+    setScore(nowN2O - price);
     setCurrentRank(rank);
     localStorage.setItem('currentRank', rank);
     localStorage.setItem("n2o", nowN2O - price);
@@ -125,6 +129,7 @@ export default function Balance() {
 
       // 상태 및 localStorage 업데이트
       setN2O(nowN2O - point);
+      setScore(nowN2O - point);
       localStorage.setItem("hammerCount", nowHammer + reward);
       localStorage.setItem("n2o", nowN2O - point);
     } catch (error) {
