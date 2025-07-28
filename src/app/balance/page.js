@@ -72,15 +72,19 @@ export default function Balance() {
 
   //랭크 카드 핸들러
   const handleRankChange = (rank, price) => {
+    const nowN2O = Number(localStorage.getItem("n2o")) || 0;
+    const currentTime = new Date().getTime();
+
     if (n2o < price) {
       setPop(true);
       setTimeout(() => setPop(false), 1500); // 1.5초 후 메시지 초기화
       return
     }
     updateRank(rank);
+    setN2O(nowN2O - price);
     setCurrentRank(rank);
-    const currentTime = new Date().getTime();
     localStorage.setItem('currentRank', rank);
+    localStorage.setItem("n2o", nowN2O - price);
     localStorage.setItem('rankTimestamp', currentTime.toString());
 
     // 랭크에 따라 버튼 비활성화 설정
@@ -104,17 +108,30 @@ export default function Balance() {
   };
 
   //boost 버튼 핸들러
+  const POPUP_DURATION = 1500; // 팝업 표시 시간 (ms)
+
   const addHammer = (point, reward) => {
-    if (n2o < point) {
-      setPop(true);
-      setTimeout(() => setPop(false), 1500); // 1.5초 후 복사 메시지 초기화
-      return
+    try {
+      // localStorage에서 값 가져오기 및 유효성 검사
+      const nowHammer = Number(localStorage.getItem("hammerCount")) || 0;
+      const nowN2O = Number(localStorage.getItem("n2o")) || 0;
+
+      // n2o 부족 체크
+      if (nowN2O < point) {
+        setPop(true);
+        setTimeout(() => setPop(false), POPUP_DURATION);
+        return;
+      }
+
+      // 상태 및 localStorage 업데이트
+      setN2O(nowN2O - point);
+      localStorage.setItem("hammerCount", nowHammer + reward);
+      localStorage.setItem("n2o", nowN2O - point);
+    } catch (error) {
+      console.error("Error in addHammer:", error);
+      // 필요 시 사용자에게 에러 알림
     }
-    const nowHammer = Number(localStorage.getItem("hammerCount"));
-    const nowN2O = Number(localStorage.getItem("n2o"));
-    localStorage.setItem("hammerCount", nowHammer + reward);
-    localStorage.setItem("n2o", nowN2O - point);
-  }
+  };
 
   return (
     <AnimatePresence mode="wait">
