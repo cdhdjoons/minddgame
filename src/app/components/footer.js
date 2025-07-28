@@ -44,7 +44,7 @@ export default function Footer() {
 
     return (
         <AnimatePresence mode="wait">
-            <motion.div className="  w-full max-w-[500px]flex justify-center items-center fixed bottom-0 z-[998] bg-footerBg  "
+            <motion.div className="  w-full max-w-[500px] flex justify-center items-center fixed bottom-0 z-[998] bg-footerBg  "
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
