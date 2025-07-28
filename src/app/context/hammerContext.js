@@ -5,7 +5,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 const HammerContext = createContext();
 
 export function HammerProvider({ children }) {
-    const [hammerCount, setHammerCount] = useState(Number(localStorage.getItem("hammerCount")) || 0); // 서버와 클라이언트에서 동일한 초기값
+    const [hammerCount, setHammerCount] = useState(0); // 서버와 클라이언트에서 동일한 초기값
     const [rank, setRank] = useState("no rank"); // 기본 rank: bronze
 
     // rank에 따른 증가 속도
